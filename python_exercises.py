@@ -1185,7 +1185,14 @@ print(f"Base 10 logarithm: {log10}")
 print(f"Base 26 logarithm: {log26}")
 
 # Output: 
-
+# Part 2
+# 12.1 Exercises: NumPy Exercises
+# PROBLEM 1: Computes the cube, sine, cosine, base 10 logarithm, and base 26 logarithm, of the number 1.6
+# Cube: 4.096000000000001
+# Sine: 0.9995736030415051
+# Cosine: -0.029199522301288815
+# Base 10 logarithm: 0.2041199826559248
+# Base 26 logarithm: 0.1442571218381242
 
 '''
 2. Create two variables that are both NaNs. Use the boolean operator to check
@@ -1203,7 +1210,9 @@ print(f"Result of nan1 == nan2: {result}")
 print("The result is False because of how Python handles NaN variables, so obviously nan1 =/ nan2")
 
 # Output: 
-
+# PROBLEM 2: Create two variables that are both NaNs, using the boolean operator to check they are equal to each other.
+# Result of nan1 == nan2: False
+# The result is False because of how Python handles NaN variables, so obviously nan1 =/ nan2
 
 '''
 3. creates a numpy array from [rabbit,pony,rhino]
@@ -1212,10 +1221,12 @@ print("\nPROBLEM 3: Creates a numpy array from [rabbit,pony,rhino]")
 import numpy as np
 
 animals = np.array(["rabbit", "pony", "rhino"])
-print(f"Array of animals: {animals}")
+print(f"Array of animals:\n{animals}")
 
 # Output: 
-
+# PROBLEM 3: Creates a numpy array from [rabbit,pony,rhino]
+# Array of animals:
+# ['rabbit' 'pony' 'rhino']
 
 '''
 4. creates a numpy array from the list: [2,3,7,85,12,25]
@@ -1225,10 +1236,12 @@ import numpy as np
 
 list = [2, 3, 7, 85, 12, 25]
 array_numbers = np.array(list)
-print(f"Array from list: {array_numbers}")
+print(f"Array from list:\n{array_numbers}")
 
 # Output: 
-
+# PROBLEM 4: Creates a numpy array from the list: [2,3,7,85,12,25]
+# Array from list:
+# [ 2  3  7 85 12 25]
 
 '''
 5. calculates the cosine of each element in the array created above.
@@ -1240,10 +1253,12 @@ numbers = np.array([2, 3, 7, 85, 12, 25])
 
 cos_values = np.cos(numbers)
 
-print(f"Cosine of each element: {cos_values}")
+print(f"Cosine of each element:\n{cos_values}")
 
 # Output: 
-
+# PROBLEM 5: Calculates the cosine of each element in the array created above
+# Cosine of each element:
+# [-0.41614684 -0.9899925   0.75390225 -0.98437664  0.84385396  0.99120281]
 
 '''
 6. turns the float array from above into a string array, then concatenates it with
@@ -1262,12 +1277,21 @@ cos_string = cos_values.astype(str)
 
 combined_array = np.concatenate((animals, cos_string))
 
-print(f"Array of animals: {animals}")
-print(f"Cosine values as strings: {cos_string}")
-print(f"Combined array: {combined_array}")
+print(f"Array of animals:\n{animals}")
+print(f"Cosine values as strings:\n{cos_string}")
+print(f"Combined array:\n{combined_array}")
 
 # Output:
-
+# PROBLEM 6: Turns the float array from above into a string array, then concatenates it with the string array above to make a single longer NumPy array of all strings
+# Array of animals:
+# ['rabbit' 'pony' 'rhino']
+# Cosine values as strings:
+# ['-0.4161468365471424' '-0.9899924966004454' '0.7539022543433046'
+#  '-0.9843766433940419' '0.8438539587324921' '0.9912028118634736']
+# Combined array:
+# ['rabbit' 'pony' 'rhino' '-0.4161468365471424' '-0.9899924966004454'
+#  '0.7539022543433046' '-0.9843766433940419' '0.8438539587324921'
+#  '0.9912028118634736']
 
 '''
 7. in a single command, creates a numpy array of the integers from 30 to 70,
@@ -1277,10 +1301,13 @@ print("\nPROBLEM 7: Creates a numpy array of the integers from 30 to 70 in a sin
 import numpy as np
 
 array = np.arange(30, 71)
-print(f"Array of integeters from 30 to 70: {array}")
+print(f"Array of integeters from 30 to 70:\n{array}")
 
 # Output: 
-
+# PROBLEM 7: Creates a numpy array of the integers from 30 to 70 in a single command.
+# Array of integeters from 30 to 70:
+# [30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53
+#  54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70]
 
 '''
 8. generates a one-dimensional numpy array of 17 numbers where the first number
@@ -1294,10 +1321,14 @@ first_number = 1.0
 
 array = np.array([first_number * (2 ** i) for i in range(17)])
 
-print(f"Array: {array}")
+print(f"Array:\n{array}")
 
 # Output: 
-
+# PROBLEM 8: Generates a one-dimensional numpy array of 17 numbers where the first number in the array is a positive real number, 1, and the other numbers are each twice the value of the array element immediately before it
+# Array:
+# [1.0000e+00 2.0000e+00 4.0000e+00 8.0000e+00 1.6000e+01 3.2000e+01
+#  6.4000e+01 1.2800e+02 2.5600e+02 5.1200e+02 1.0240e+03 2.0480e+03
+#  4.0960e+03 8.1920e+03 1.6384e+04 3.2768e+04 6.5536e+04]
 
 '''
 9. generates two numpy arrays. The first should contain 100 elements, running
@@ -1310,10 +1341,46 @@ import numpy as np
 
 first_array = np.linspace(0, np.pi, 100)
 second_array = np.cos(first_array)
-print(f"{first_array}\n{second_array}")
+print(f"First array:\n{first_array}\nSecond array:\n{second_array}")
 
 # Output: 
-
+# PROBLEM 9: Generates two numpy arrays. The first containing 100 elements, running from zero to π. The second containing the cosine of the elements in the first array
+# First array:
+# [0.         0.03173326 0.06346652 0.09519978 0.12693304 0.1586663
+#  0.19039955 0.22213281 0.25386607 0.28559933 0.31733259 0.34906585
+#  0.38079911 0.41253237 0.44426563 0.47599889 0.50773215 0.53946541
+#  0.57119866 0.60293192 0.63466518 0.66639844 0.6981317  0.72986496
+#  0.76159822 0.79333148 0.82506474 0.856798   0.88853126 0.92026451
+#  0.95199777 0.98373103 1.01546429 1.04719755 1.07893081 1.11066407
+#  1.14239733 1.17413059 1.20586385 1.23759711 1.26933037 1.30106362
+#  1.33279688 1.36453014 1.3962634  1.42799666 1.45972992 1.49146318
+#  1.52319644 1.5549297  1.58666296 1.61839622 1.65012947 1.68186273
+#  1.71359599 1.74532925 1.77706251 1.80879577 1.84052903 1.87226229
+#  1.90399555 1.93572881 1.96746207 1.99919533 2.03092858 2.06266184
+#  2.0943951  2.12612836 2.15786162 2.18959488 2.22132814 2.2530614
+#  2.28479466 2.31652792 2.34826118 2.37999443 2.41172769 2.44346095
+#  2.47519421 2.50692747 2.53866073 2.57039399 2.60212725 2.63386051
+#  2.66559377 2.69732703 2.72906028 2.76079354 2.7925268  2.82426006
+#  2.85599332 2.88772658 2.91945984 2.9511931  2.98292636 3.01465962
+#  3.04639288 3.07812614 3.10985939 3.14159265]
+# Second array:
+# [ 1.          0.99949654  0.99798668  0.99547192  0.99195481  0.98743889
+#   0.9819287   0.97542979  0.9679487   0.95949297  0.95007112  0.93969262
+#   0.92836793  0.91610846  0.90292654  0.88883545  0.87384938  0.85798341
+#   0.84125353  0.82367658  0.80527026  0.78605309  0.76604444  0.74526445
+#   0.72373404  0.70147489  0.67850941  0.65486073  0.63055267  0.60560969
+#   0.58005691  0.55392006  0.52722547  0.5         0.47227107  0.44406661
+#   0.41541501  0.38634513  0.35688622  0.32706796  0.29692038  0.26647381
+#   0.23575894  0.20480667  0.17364818  0.14231484  0.1108382   0.07924996
+#   0.04758192  0.01586596 -0.01586596 -0.04758192 -0.07924996 -0.1108382
+#  -0.14231484 -0.17364818 -0.20480667 -0.23575894 -0.26647381 -0.29692038
+#  -0.32706796 -0.35688622 -0.38634513 -0.41541501 -0.44406661 -0.47227107
+#  -0.5        -0.52722547 -0.55392006 -0.58005691 -0.60560969 -0.63055267
+#  -0.65486073 -0.67850941 -0.70147489 -0.72373404 -0.74526445 -0.76604444
+#  -0.78605309 -0.80527026 -0.82367658 -0.84125353 -0.85798341 -0.87384938
+#  -0.88883545 -0.90292654 -0.91610846 -0.92836793 -0.93969262 -0.95007112
+#  -0.95949297 -0.9679487  -0.97542979 -0.9819287  -0.98743889 -0.99195481
+#  -0.99547192 -0.99798668 -0.99949654 -1.        ]
 
 '''
 10. creates a numpy array of length 100 with values evenly distributed between
@@ -1330,10 +1397,13 @@ indices = [2, 3, 7, 85, 12, 25]
 
 new_array = array[indices]
 
-print(f"New array: {new_array}")
+print(f"New array:\n{new_array}")
 
 # Output: 
-
+# PROBLEM 10: Creates a numpy array of length 100 with values evenly distributed between 5 and 5000. Then, takes the [2,3,7,85,12,25] elements of that array, in that order, and makes them into a new numpy array
+# New array:
+# [ 105.90909091  156.36363636  358.18181818 4293.63636364  610.45454545
+#  1266.36363636]
 
 '''
 11. creates a 3×3 numpy array of all True’s (the boolean data type, not the string).
@@ -1342,10 +1412,14 @@ print("\nPROBLEM 11: Creates a 3×3 numpy array of all True’s")
 import numpy as np
 
 true_array = np.ones((3, 3), dtype=bool)
-print(f"Array of all 'True': {true_array}")
+print(f"Array of all 'True':\n{true_array}")
 
 # Output:
-
+# PROBLEM 11: Creates a 3×3 numpy array of all True’s
+# Array of all 'True':
+# [[ True  True  True]
+#  [ True  True  True]
+#  [ True  True  True]]
 
 '''
 12. creates a 3×3 numpy array where each row is 1,2,3
@@ -1354,10 +1428,14 @@ print("\nPROBLEM 12: Creates a 3×3 numpy array where each row is 1,2,3")
 import numpy as np
 
 array_3x3 = np.array([[1, 2, 3]] * 3)
-print(f"3x3 array of rows 1, 2, 3: {array_3x3}")
+print(f"3x3 array of rows 1, 2, 3:\n{array_3x3}")
 
 # Output:
-
+# PROBLEM 12: Creates a 3×3 numpy array where each row is 1,2,3
+# 3x3 array of rows 1, 2, 3:
+# [[1 2 3]
+#  [1 2 3]
+#  [1 2 3]]
 
 '''
 13. creates a 3×3 numpy array where each column is 1,4,9
@@ -1368,10 +1446,14 @@ import numpy as np
 array_3x3 = np.array([[1, 1, 1],
                       [4, 4, 4],
                       [9, 9, 9]])
-print(f"3x3 array of columns 1, 4, 9: {array_3x3}")
+print(f"3x3 array of columns 1, 4, 9:\n{array_3x3}")
 
 # Output:
-
+# PROBLEM 13: Creates a 3 ×3 numpy array where each column is 1,4,9
+# 3x3 array of columns 1, 4, 9:
+# [[1 1 1]
+#  [4 4 4]
+#  [9 9 9]]
 
 '''
 14. in one line, creates a SIXTEEN dimensional numpy array where each dimension
@@ -1382,9 +1464,16 @@ print("\nPROBLEM 14: Creates a SIXTEEN dimensional numpy array where each dimens
 import numpy as np
 
 array_16d = np.zeros((2,) * 16)
+confirmation = input("The following array is absurdly long. Enter 'yes' to continue: ")
+
+if confirmation == "yes":
+    print("Continuing.")
+else:
+    print("Continuing anyways!")
+
 print(f"Sixteen dimensional array: {array_16d}")
 
-# Output: 
+# Output: too long.
 
 
 '''
@@ -1398,10 +1487,13 @@ a = np.array([1, 2, 3, 4])
 b = np.array([5, 6, 7, 8])
 
 result = np.array([a, b])
-print(f"Joined array: {result}")
+print(f"Joined array:\n{result}")
 
 # Output: 
-
+# PROBLEM 15: Take two one-dimensional numpy arrays of the same length and data type, and join them into a single numpy array of two rows
+# Joined array:
+# [[1 2 3 4]
+#  [5 6 7 8]]
 
 '''
 16. generates a uniformly distributed random number between 0 and 1. Hint: the
@@ -1414,7 +1506,8 @@ random_number = np.random.uniform(0, 1)
 print(f"Random number: {random_number}")
 
 # Output: 
-
+# PROBLEM 16: Generate a uniformly distributed random number between 0 and 1
+# Random number: 0.7816347223575503
 
 '''
 17. generates a numpy array of 15 random numbers from a uniform distribution
@@ -1434,7 +1527,7 @@ mean = np.mean(random_numbers)
 standard_deviation = np.std(random_numbers)
 variance = np.var(random_numbers)
 
-print(f"Random numbers: {random_numbers}")
+print(f"Random numbers:\n{random_numbers}")
 print(f"Max: {max_value}")
 print(f"Min: {min_value}")
 print(f"Mean: {mean}")
@@ -1442,7 +1535,16 @@ print(f"Standard Deviation: {standard_deviation}")
 print(f"Variance: {variance}")
 
 # Output:
-
+# PROBLEM 17: Generate a numpy array of 15 random numbers from a uniform distribution betweem 8 and 11. Then, find the maximum and minimum numbers from the array. Then, calculate the mean and standard deviation, and variance of the list in the question above
+# Random numbers: 
+# [ 8.81402862  8.22043749  8.66581335 10.91823187  9.52330046  9.69479818
+#   8.85752959  9.90235574  9.80670697  8.8761331   9.53969075 10.86530178
+#  10.80741731 10.05152854 10.5244351 ]
+# Max: 10.9182318717083
+# Min: 8.22043748918719
+# Mean: 9.671180589292788
+# Standard Deviation: 0.8326898602712541
+# Variance: 0.6933724033985608
 
 '''
 18. defines two vectors (of your choice) and then computes their cross product.
@@ -1455,10 +1557,14 @@ second_vector = np.array([4, 5, 6])
 
 cross_product = np.cross(first_vector, second_vector)
 
+print(f"First vector: {first_vector}\nSecond vector: {second_vector}")
 print(f"Cross product: {cross_product}")
 
 # Output: 
-
+# PROBLEM 18: Define two vectors and then compute their cross product
+# First vector: [1 2 3]
+# Second vector: [4 5 6]
+# Cross product: [-3  6 -3]
 
 '''
 19. turns a python list of floats (of your choice) into a numpy array of integers.
@@ -1470,11 +1576,15 @@ float_list = [1.11, 2.22, 3.33, 4.44, 5.55]
 
 integer_array = np.array(float_list, dtype=int)
 
-print(f"Floats: {float_list}")
-print(f"Converted integers: {integer_array}")
+print(f"Floats:\n{float_list}")
+print(f"Converted integers:\n{integer_array}")
 
 # Output: 
-
+# PROBLEM 19: Turn a python list of floats into a numpy array of integers
+# Floats:
+# [1.11, 2.22, 3.33, 4.44, 5.55]
+# Converted integers:
+# [1 2 3 4 5]
 
 '''
 20. generates a 2-D numpy array with 5 rows and 7 columns. Set the [0,0] element
@@ -1497,9 +1607,16 @@ array[2, :3] = 7.2
 print("New array:")
 print(f"{array}")
 
-
 # Output:
-
+# PROBLEM 20: Generate a 2-D NumPy array with 5 rows and 7 columns (etc.)
+# Elements 1-3 of fifth row:
+# [ 94.5  97.8 101.1]
+# New array:
+# [[  2.1   5.4   8.7  12.   15.3  18.6  21.9]
+#  [ 25.2  28.5  31.8  35.1  38.4  41.7  45. ]
+#  [  7.2   7.2   7.2  58.2  61.5  64.8  68.1]
+#  [ 71.4  74.7  78.   81.3  84.6  87.9  91.2]
+#  [ 94.5  97.8 101.1 104.4 107.7 111.  114.3]]
 
 '''
 21. Generate an 8×8 array where each element is a random (as generated by
@@ -1523,7 +1640,25 @@ print(f"{array_8x8}")
 print(f"Random element at row {row_index} and column {column_index}: {random_element}")
 
 # Output:
-
+# PROBLEM 21: Generate an 8×8 array where each element is a random float between 7 and 28. Then, at random, pick an element from the array.
+# 8×8 Array:
+# [[22.67395005 26.2002224  18.4040777  25.05928909 11.69452117 17.28841999
+#   23.94697817 12.10874788]
+#  [26.15730103 18.32240999 16.94799373 11.53495698 11.73493294 15.51012504
+#   18.57827916 25.53885217]
+#  [27.18877111 25.54822731 23.33385734 10.73998347 23.83378395  8.98899938
+#   25.96043817 19.31985476]
+#  [15.44976432 23.67850483 22.22676884 21.43602524 16.00985971 21.12205633
+#    9.79656503 18.51416468]
+#  [26.52740525 18.62406171  8.88358527 25.18730703 23.24811915 22.93139755
+#   24.40879386 27.84666262]
+#  [19.98730526 21.48637506 10.14153479  8.61634872  9.97130019  8.68995553
+#    9.67969132 15.91487716]
+#  [23.47288915 24.34372125 17.74545386 27.91248356 17.04927543 27.40945986
+#   14.11942983  9.17176407]
+#  [26.27003867 18.4536664  22.65314264 14.34595964  8.13636391 13.50226581
+#   25.60236696 22.84008758]]
+# Random element at row 7 and column 1: 18.453666395432734
 
 '''
 22. How exactly does python generate a ”random” number? This is not a Numpy
@@ -1531,10 +1666,11 @@ specific question... Even more deeply, how does a computer, in general, generate
 a ’random’ number?
 '''
 print("\nPROBLEM 22: How exactly does python generate a ”random” number? Even more deeply, how does a computer, in general, generate a ’random’ number?")
-print("\n# Answer: Python generates a random number via a 'PRNG'. In this case, that is the 'Mersenne Twister', an algorithm that uses some environmental variable as a seed-starter that initiates the algorithm.")
+print("Answer: Python generates a random number via a 'PRNG'. In this case, that is the 'Mersenne Twister', an algorithm that uses some environmental variable as a seed-starter that initiates the algorithm.")
 
 # Output: 
-
+# PROBLEM 22: How exactly does python generate a ”random” number? Even more deeply, how does a computer, in general, generate a ’random’ number?
+# Answer: Python generates a random number via a 'PRNG'. In this case, that is the 'Mersenne Twister', an algorithm that uses some environmental variable as a seed-starter that initiates the algorithm.
 
 '''
 23. Let’s say you want to take the exponent of the number 1.9387. You could do
@@ -1565,10 +1701,13 @@ pow_time = end - start
 
 print(f"Time for np.exp(1.9387): {np_exp_time}")
 print(f"Time for 2.71838 ** 1.9387: {pow_time}")
-print("# The 2.71838 ** 1.9387 was much faster, and I don't exactly know why you would ever want to use the 'slower' one.")
+print("ANSWER: The 2.71838 ** 1.9387 was much faster, and I don't exactly know why you would ever want to use the 'slower' one.")
 
 # Output:
-
+# PROBLEM 23: Write a python script that executes np.exp(1.9387) ten million times, and time how long it takes to complete. Do the exact same thing for 2.71838 ** 1.9387. Which is faster? Why? When should you use ”the slow one”? When is it okay to use ”the fast one”?
+# Time for np.exp(1.9387): 3.777930974960327
+# Time for 2.71838 ** 1.9387: 0.17475295066833496
+# ANSWER: The 2.71838 ** 1.9387 was much faster, and I don't exactly know why you would ever want to use the 'slower' one.
 
 '''
 24. Write a Python function to create all possible strings by using five provided
@@ -1590,10 +1729,13 @@ def all_possiblities(letters):
 
 user_input = input("Enter five letters: ")
 result = all_possiblities(user_input)
-print(f"All possible strings: {result}")
+print(f"All possible strings:\n{result}")
 
 # Output: 
-
+# PROBLEM 24: Write a Python function to create all possible strings by using five provided letters, using each letter exactly once per string
+# Enter five letters: robin
+# All possible strings: 
+# ['robin', 'robni', 'roibn', 'roinb', 'ronbi', 'ronib', 'rboin', 'rboni', 'rbion', 'rbino', 'rbnoi', 'rbnio', 'riobn', 'rionb', 'ribon', 'ribno', 'rinob', 'rinbo', 'rnobi', 'rnoib', 'rnboi', 'rnbio', 'rniob', 'rnibo', 'orbin', 'orbni', 'oribn', 'orinb', 'ornbi', 'ornib', 'obrin', 'obrni', 'obirn', 'obinr', 'obnri', 'obnir', 'oirbn', 'oirnb', 'oibrn', 'oibnr', 'oinrb', 'oinbr', 'onrbi', 'onrib', 'onbri', 'onbir', 'onirb', 'onibr', 'broin', 'broni', 'brion', 'brino', 'brnoi', 'brnio', 'borin', 'borni', 'boirn', 'boinr', 'bonri', 'bonir', 'biron', 'birno', 'biorn', 'bionr', 'binro', 'binor', 'bnroi', 'bnrio', 'bnori', 'bnoir', 'bniro', 'bnior', 'irobn', 'ironb', 'irbon', 'irbno', 'irnob', 'irnbo', 'iorbn', 'iornb', 'iobrn', 'iobnr', 'ionrb', 'ionbr', 'ibron', 'ibrno', 'iborn', 'ibonr', 'ibnro', 'ibnor', 'inrob', 'inrbo', 'inorb', 'inobr', 'inbro', 'inbor', 'nrobi', 'nroib', 'nrboi', 'nrbio', 'nriob', 'nribo', 'norbi', 'norib', 'nobri', 'nobir', 'noirb', 'noibr', 'nbroi', 'nbrio', 'nbori', 'nboir', 'nbiro', 'nbior', 'nirob', 'nirbo', 'niorb', 'niobr', 'nibro', 'nibor']
 
 '''
 25. Without using Python, write down two square arrays of different sizes that (a)
@@ -1644,7 +1786,34 @@ print("\nA + C:")
 print(f"{sum_AC}")
 
 # Output:
+# PROBLEM 25: Write down two square arrays of different sizes that (a) have an inverse, (b) are not zero everywhere, and (c) are not identity matrices. Find the inverse of both arrays. Try adding the two arrays together, see what happens. Generate a third numpy array of the same size as one of the first two. Add the two same-sized arrays together, see what happens.
+# Matrix A:
+# [[2 3]
+#  [1 4]]
 
+# Inverse of matrix A:
+# [[ 0.8 -0.6]
+#  [-0.2  0.4]]
+
+# Matrix B:
+# [[1 2 3]
+#  [0 1 4]
+#  [5 6 0]]
+
+# Inverse of matrix B:
+# [[-24.  18.   5.]
+#  [ 20. -15.  -4.]
+#  [ -5.   4.   1.]]
+
+# Error adding A and B: operands could not be broadcast together with shapes (2,2) (3,3) 
+
+# Matrix C (2x2):
+# [[ 7  8]
+#  [ 9 10]]
+
+# A + C:
+# [[ 9 11]
+#  [10 14]]
 
 '''
 26. You know how a 7 year old kid in a car journey can be really annoying, asking
@@ -1688,7 +1857,17 @@ for _ in range(times_to_print):
     print("ARE WE THERE YET")
 
 # Output:
+# PROBLEM 26: ARE WE THERE YET?
+# Generated annoyance value: 7
+# Printing 'ARE WE THERE YET' 7 times:
 
+# ARE WE THERE YET
+# ARE WE THERE YET
+# ARE WE THERE YET
+# ARE WE THERE YET
+# ARE WE THERE YET
+# ARE WE THERE YET
+# ARE WE THERE YET
 
 '''
 27. There are four different points on a plane, P(xp,yp), Q(xq, yq), R(xr, yr) and
@@ -1724,7 +1903,16 @@ else:
     print("The lines PQ and RS are not orthogonal.")
 
 # Output: 
-
+# PROBLEM 27: There are four different points on a plane, P(xp,yp), Q(xq, yq), R(xr, yr) and S(xs, ys). xp,yp, xq, yq, xr, yr, xs and ys are -100 to 100 respectively and each value can be up to 5 digits after the decimal point. Ttest if two lines connecting any of the points on this plane are orthogonal or not
+# Enter xp (P's x-coordinate): 1
+# Enter yp (P's y-coordinate): 2
+# Enter xq (Q's x-coordinate): 3
+# Enter yq (Q's y-coordinate): 4
+# Enter xr (R's x-coordinate): 5
+# Enter yr (R's y-coordinate): 6
+# Enter xs (S's x-coordinate): 7
+# Enter ys (S's y-coordinate): 8
+# The lines PQ and RS are not orthogonal.
 
 '''
 28. Two strings are isomorphic if the characters in string A can be replaced to get
@@ -1748,4 +1936,7 @@ else:
     print("The strings are not isomorphic.")
 
 # Output: 
-
+# PROBLEM 28: Check if two strings are isomorphic or not
+# Enter the first string: string
+# Enter the second string: robin
+# The strings are not isomorphic.
