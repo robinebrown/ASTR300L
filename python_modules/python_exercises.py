@@ -1733,9 +1733,9 @@ def all_possiblities(letters):
             results.append(current + perm)
     return results
 
-user_input = input("Enter five letters: ")
+user_input = input("Enter five characters (no spaces): ")
 result = all_possiblities(user_input)
-print(f"All possible strings:\n{result}")
+print(f"All possible combinations:\n{result}")
 
 # Output: 
 # PROBLEM 24: Write a Python function to create all possible strings by using five provided letters, using each letter exactly once per string
