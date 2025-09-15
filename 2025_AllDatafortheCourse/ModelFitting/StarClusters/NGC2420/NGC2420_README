@@ -1,0 +1,9 @@
+Details for Cluster: NGC 2420
+Distance Modulus: 12.54
+Interstellar Reddening: 0.03
+[Fe/H]: -0.26 (alpha enhanced)
+
+File List:
+NGC2420_README : This file
+NGC2420_raw.csv : Pan-STARRS object data for 30arcmin radius around NGC 2420
+NGC2420_XXXXMY.txt : Dartmouth isochrone data for XXXX million year old distribution
