@@ -395,8 +395,8 @@ and the second is a real number above 2.2.
 print("\nPROBLEM 3: Sum two variables if first is integer and second is real number > 2.2.")
 
 try:
-    input1 = input("First variable: ")
-    input2 = input("Second variable: ")
+    input1 = int(input("First variable: "))
+    input2 = float(input("Second variable: "))
     if input2 > 2.2:
         print(f"Sum: {input1 + input2}")
     else:
