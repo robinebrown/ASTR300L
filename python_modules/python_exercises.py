@@ -2010,3 +2010,28 @@ plt.ylabel("Vertical Distance (m)")
 plt.legend()
 plt.grid(True)
 plt.show()
+
+'''
+3. Read all the columns of Test4.txt into individual numpy arrays. These data
+describe the numbers of hares, lynxes, and carrots in northern Canada over a
+20 year period, so you might guess they will be related. Plot the three columns
+in a single figure. Year on the x axis and Number on the y axis. Plot the data
+as lines, different color for each line. Make the hares line twice the thickness of
+the other lines. Add a legend labelling each line.
+'''
+print("\nPROBLEM 3: Test4.txt arrays and plot")
+import numpy as np
+import matplotlib.pyplot as plt
+
+year, hare, lynx, carrot = np.loadtxt("Test4.txt", comments="#", unpack=True)
+
+plt.figure()
+plt.plot(year, hare, linewidth=2.0, label="hares")   # twice as thick
+plt.plot(year, lynx, linewidth=1.0, label="lynxes")
+plt.plot(year, carrot, linewidth=1.0, label="carrots")
+
+plt.xlabel("Year")
+plt.ylabel("Number")
+plt.legend()
+plt.title("Hares, Lynxes, and Carrots (20 years)")
+plt.show()
