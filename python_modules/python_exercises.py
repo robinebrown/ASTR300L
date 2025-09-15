@@ -393,14 +393,17 @@ except ValueError:
 and the second is a real number above 2.2.
 '''
 print("\nPROBLEM 3: Sum two variables if first is integer and second is real number > 2.2.")
-input1 = input("First variable: ")
-input2 = input("Second variable: ")
 
-if input1.isdigit() and input2.replace('.', '', 1).isdigit() and float(input1) > 2.2:
-    print(f"Sum: {int(input1) + float(input2)}")
-# https://stackoverflow.com/questions/9452108/how-to-use-string-replace-in-python-3-x
-else:
+try:
+    input1 = input("First variable: ")
+    input2 = input("Second variable: ")
+    if input2 > 2.2:
+        print(f"Sum: {input1 + input2}")
+    else:
+        print("Invalid input.")
+except ValueError:
     print("Invalid input.")
+# https://stackoverflow.com/questions/9452108/how-to-use-string-replace-in-python-3-x
     
 # Output: 
 # PROBLEM 3: Sum two variables if first is integer and second is real number > 2.2.
