@@ -105,7 +105,7 @@ print("\nPROBLEM 2: Add fuschia and aquamarine\nList of strings: Red, Green, Whi
 list_of_colors = ["Red", "Green", "White", "Black"]
 list_of_colors.insert(0, "fuschia")
 list_of_colors.insert(0, "aquamarine")
-print(list_of_colors)
+print("New list:\n",list_of_colors)
 
 # Output:
 # PROBLEM 2: Add fuschia and aquamarine
@@ -137,7 +137,7 @@ half_list = len(list_of_numbers) // 2
 first_half = list_of_numbers[:half_list]
 second_half = list_of_numbers[half_list:]
 combined_list = [first_half, second_half]
-print("Cut and combined list:", *combined_list)
+print("Cut and combined list:\n", *combined_list)
 
 # Output: 
 # PROBLEM 4: Cut and combine
@@ -152,7 +152,7 @@ print("\nPROBLEM 5: Integer long list of 'string'")
 string = input("String: ")
 integer = int(input("Integer: "))
 answer_list = [string] * integer
-print("List:", *answer_list)
+print("List:\n", *answer_list)
 
 # Output: 
 # PROBLEM 5: Integer long list of 'string'
@@ -299,7 +299,7 @@ print("Color list: Black, Red, Maroon, Yellow\nHexcode list: #000000, #FF0000, #
 list1 = ["Black”, ”Red”, ”Maroon”, ”Yellow"]
 list2 = ["#000000”, ”#FF0000”, ”#800000”, ”#FFFF00"]
 combined_list = dict(zip(list1,list2))
-print("Color dictionary: ", combined_list)
+print("Color dictionary:\n", combined_list)
 
 # Output: 
 # PROBLEM 13: Combining two lists into one dictionary
@@ -316,7 +316,7 @@ dict_1 = {11:10, 1:20}
 dict_2 = {33:30, 2:40}
 dict_3 = {55:50, 3:60}
 full_dictionary = {**dict_1, **dict_2, **dict_3}
-print("Full Dictionary: ", full_dictionary)
+print("Full Dictionary:\n", full_dictionary)
 
 # Output: 
 # PROBLEM 14: Concatenate three dictionaries into one
@@ -574,7 +574,8 @@ mass1 = float(input("Enter 1st mass: "))
 mass2 = float(input("Enter 2nd mass: "))
 
 def gravitational_force(m1, m2):
-    '''This function takes in two masses, m1 and m2, and does basic math to compute the gravitational force between them'''
+    """Return the gravitational force (in newtons) between point masses m1 and m2 assuming a 1 m separation using Newton’s law (G = 6.67e-11)."""
+
     distance = 1
     G = 6.67 * 10**-11
     force = G * (m1 * m2) / distance**2
@@ -764,6 +765,8 @@ Return true for intersecting and false otherwise.
 '''
 print("\nPROBLEM 5: Checking whether two circles are intersecting or not.")
 def intersection_eq(x1, y1, r1, x2, y2, r2):
+    """Return True if the circles centered at (x1, y1) and (x2, y2) with radii r1 and r2 intersect or are tangent (i.e., |r1 - r2| ≤ distance ≤ r1 + r2)."""
+
     distance = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
     # https://math.stackexchange.com/questions/256100/how-can-i-find-the-points-at-which-two-circles-intersect
     # https://www.youtube.com/watch?v=PSlWb90JJx4&ab_channel=MathematicsProofs-GCSE%26ALevel
@@ -803,6 +806,8 @@ achieved” to the screen, returns the result.
 print("\n7.5 Function Exercises\nPROBLEM 1: Sum two inputs, print 'Mathematical operation achieved', then return result.")
 
 def add_numbers(num1, num2):
+    """Add num1 and num2, print 'Mathematical operation achieved', and return their sum."""
+
     result = num1 + num2
     print("Mathematical operation achieved")
     return result
@@ -828,11 +833,13 @@ to the power of the other if they are not and retuns the result.
 '''
 print("\nPROBLEM 2: Given two numbers, add them if they are both >=0 and <=100, or raise the first to the power of the second if they are not.")
 def add_numbers(num1, num2):
-    '''This function adds too numbers together.'''
+    """Return the sum of num1 and num2."""
+
     return num1 + num2
 
 def power_numbers(num1, num2):
-    '''This function puts the first input to the power of the second input.'''
+    """Return num1 raised to the power of num2."""
+
     return num1 ** num2
 
 number1 = float(input("Enter the first number: "))
@@ -859,6 +866,8 @@ first function, which then returns that answer to the main level.
 '''
 print("\nPROBLEM 3: Given two numbers, adds them together, and checks if the sum is within 0 to 100, returning 'yes' if it is and 'no' if it isn't to the first function, which then returns that answer to the main level.")
 def check_range(result):
+    """Return 'yes' if result is within the inclusive range 0–100, otherwise 'no'."""
+
     lower_range = 0
     upper_range = 100
     
@@ -868,6 +877,8 @@ def check_range(result):
         return "no"
 
 def add_check(num1, num2):
+    """Add num1 and num2, pass the sum to check_range, and return its 'yes'/'no' result."""
+
     result = num1 + num2
     answer = check_range(result)
     return answer
@@ -891,6 +902,8 @@ print("\nPROBLEM 4: Takes in A,B,C,D,E,F, and solves for x and y in Ax + By = C,
 
 # https://stackoverflow.com/questions/48916464/python-linear-equation-with-cramers-rule
 def solve_system(A, B, C, D, E, F):
+    """Solve Ax+By=C and Dx+Ey=F via Cramer's rule, returning (x, y) or 'No solution.' if the determinant is zero."""
+
     denominator = A * E - B * D
     
     if denominator == 0:
@@ -938,6 +951,8 @@ print("\nPROBLEM 5: Wishing 'happy birthday'.")
 name = input("Enter a name: ")
 
 def happy_birthday():
+    """Print the generic 'Happy Birthday' song addressed to 'whomever'."""
+
     print("Happy Birthday to you!")
     print("Happy Birthday to you!")
     print("Happy Birthday dear whomever!")
@@ -946,6 +961,8 @@ def happy_birthday():
 happy_birthday()
 
 def happy_birthday_kai():
+    """Print the 'Happy Birthday' song addressed to Kai."""
+
     print("Happy Birthday to you!")
     print("Happy Birthday to you!")
     print("Happy Birthday dear Kai!")
@@ -954,6 +971,8 @@ def happy_birthday_kai():
 happy_birthday_kai()
 
 def happy_birthday_alana():
+    """Print the 'Happy Birthday' song addressed to Alana."""
+
     print("Happy Birthday to you!")
     print("Happy Birthday to you!")
     print("Happy Birthday dear Alana!")
@@ -962,6 +981,8 @@ def happy_birthday_alana():
 happy_birthday_alana()
 
 def happy_birthday_leilani():
+    """Print the 'Happy Birthday' song addressed to Leilani."""
+
     print("Happy Birthday to you!")
     print("Happy Birthday to you!")
     print("Happy Birthday dear Leilani!")
@@ -970,6 +991,8 @@ def happy_birthday_leilani():
 happy_birthday_leilani()
 
 def happy_birthday_to_name(name):
+    """Print the 'Happy Birthday' song addressed to the user-inputted name."""
+
     print("Happy Birthday to you!")
     print("Happy Birthday to you!")
     print(f"Happy Birthday dear {name}!")
@@ -1013,6 +1036,8 @@ Oddish or Evenish.
 print("\nPROBLEM 6: Oddish or Evenish")
 
 def oddish_or_evenish(number):
+    """Return 'Oddish' if the sum of the digits of number is odd, otherwise 'Evenish'."""
+
     digits = str(number)
     
     digit_sum = sum(int(digit) for digit in digits)
@@ -1041,6 +1066,8 @@ narcissistic, and then test it out on:
 print("\nPROBLEM 7: Narcissistic numbers")
 
 def is_narcissistic(number):
+    """Return True if number equals the sum of its digits each raised to the power of the total digit count (a.k.a. an Armstrong/narcissistic number)."""
+
     digits = str(number)
     num_digits = len(digits)
     digit_sum = sum(int(digit) ** num_digits for digit in digits)
@@ -1092,6 +1119,8 @@ num1 = float(input("Enter a number: "))
 num2 = float(input("Enter another number: "))
 
 def add_function(num1, num2):
+    """Return the sum of two positive real numbers without using +, -, *, or / (leverages built-in sum)."""
+
     return sum((num1, num2))
 
 print(f"The sum of those two numbers is: {add_function(num1, num2)}")
@@ -1723,6 +1752,8 @@ print("\nPROBLEM 24: Write a Python function to create all possible strings by u
 
 # https://stackoverflow.com/questions/57352729/trying-to-make-a-recursive-permutation-function-in-python
 def all_possiblities(letters):
+    """Return a list of all permutations that use each character in letters exactly once."""
+
     if len(letters) == 1:
         return [letters]
     results = []
@@ -1841,6 +1872,8 @@ print("\nPROBLEM 26: ARE WE THERE YET?")
 import numpy as np
 
 def get_annoyance():
+    """Sample an 'annoyance' level by drawing from Normal(mean=7, sd=4), rounding to the nearest integer, and clamping at 0."""
+
     n = np.random.normal(7, 4)
     n = int(round(n))
     if n < 0:
@@ -1929,6 +1962,8 @@ isomorphic to each other or not.
 print("\nPROBLEM 28: Check if two strings are isomorphic or not")
 # https://stackoverflow.com/questions/49679872/isomorphic-python-algorithms
 def is_isomorphic(s, t):
+    """Return True if strings s and t are isomorphic (a one-to-one, consistent remapping of s’s characters forms t), else False."""
+
     if len(s) != len(t):
         return False
     return [s.index(c) for c in s] == [t.index(c) for c in t]
