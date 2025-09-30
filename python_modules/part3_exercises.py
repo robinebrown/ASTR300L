@@ -89,21 +89,92 @@
 # plt.imshow(image_nine, cmap='inferno')
 # plt.show()
 
+# '''
+# 3. Generate an N × N numpy array of all zeros, where 50 < N < 200. Then,
+# pick a random point in this array that is at least ten picels away from the
+# origin in both x and y directions. After that, write a funcion that calculates
+# the Euclidean distance between any two coordinate positions, and returns that
+# distance (which can be a float). Use this function, and a color map of your
+# choice that is nevertheless suited to the problem, to color code every pixel in
+# your image by its Euclidean distance from the random;y chosen point.
+# '''
+# import numpy as np
+# import matplotlib.pyplot as plt
+
+# # https://stackoverflow.com/questions/74343474/reproduce-numpy-random-numbers-with-numpy-rng
+# rng = np.random.default_rng()
+# N = int(rng.integers(51, 200))
+
+# yy, xx = np.indices((N, N))
+
+# x0 = int(rng.integers(10, N))
+# y0 = int(rng.integers(10, N))
+
+# dist = np.hypot(xx - x0, yy - y0)  # same as sqrt((x-x0)^2 + (y-y0)^2)
+
+# plt.figure(figsize=(6,6))
+# im = plt.imshow(dist, origin="upper")
+# plt.title(f"Euclidean distance from ({x0}, {y0}) in a {N}×{N} image")
+# plt.colorbar(im, fraction=0.046, pad=0.04, label="Distance (pixels)")
+# plt.axis("off")
+# plt.show()
+
+
+# '''
+# 4. Same as above, but this time, instead of the Euclidean distance, determine the
+# values of each pixel via the function:
+# v(x, y) = asin 2πx/b + ccos 2πy/d
+# Experiment with the values of a,b,c,d to see what they do. Pick an appropriate
+# color map and values of these parameters so that the displayed result looks like
+# ”rippling water”.
+# '''
+# import numpy as np
+# import matplotlib.pyplot as plt
+
+# # grid
+# N = 150
+# yy, xx = np.indices((N, N))
+
+# a, b = 1.0, 18.0
+# c, d = 1.0, 24.0
+
+# v = a*np.sin(2*np.pi*xx/b) + c*np.cos(2*np.pi*yy/d)
+
+# plt.figure(figsize=(6,6))
+# im = plt.imshow(v, origin="upper")
+# plt.title("v(x,y) = a sin(2πx/b) + c cos(2πy/d)")
+# plt.axis("off")
+# plt.colorbar(im, fraction=0.046, pad=0.04)
+# plt.show()
+
 '''
-3. Generate an N × N numpy array of all zeros, where 50 < N < 200. Then,
-pick a random point in this array that is at least ten picels away from the
-origin in both x and y directions. After that, write a funcion that calculates
-the Euclidean distance between any two coordinate positions, and returns that
-distance (which can be a float). Use this function, and a color map of your
-choice that is nevertheless suited to the problem, to color code every pixel in
-your image by its Euclidean distance from the random;y chosen point.
+5. Something more interesting.
 '''
 import numpy as np
 import matplotlib.pyplot as plt
 
-nxn_array = np.zeros((125,125), dtype=float)
-random_point = nxn_array[25,25]
-distance = 
-print("The array is too large to print to the console. Sorry.")
-print(nxn_array)
-print(random_point)
+N, nmax, R = 500, 1000, 2.0
+x = np.linspace(-1.75, 0.75, N) # using linspace for evenly spaced numbers over n - ni
+y = np.linspace(-1.25, 1.25, N)
+# https://www.youtube.com/watch?v=7K_a1mmraHU
+X, Y = np.meshgrid(x, y) # creates two dimensional 'grid' from one-dimensional arrays x & y
+c = X + 1j*Y # 1j is the imaginary number, where j represents 'i'
+
+q = np.zeros_like(c) # Set c for that pixel using Equation 7: c = x+iy
+iterations = np.zeros(c.shape, dtype=float) # .shape gives the dimension size of 'c' array in (x, y)
+
+for n in range(1, nmax + 1): # stopping iteration and setting color to black at nmax (1000)
+    q = q*q + c
+    m = (iterations == 0) & (np.abs(q) > R)
+    iterations[m] = n
+    q[iterations > 0] = 0
+
+cmap = plt.cm.turbo.copy()
+cmap.set_bad('black')
+img = np.ma.masked_equal(iterations, 0) 
+
+plt.imshow(img, origin='lower', extent=[x.min(), x.max(), y.min(), y.max()], cmap=cmap)
+plt.xlabel("Real(c)"); plt.ylabel("Imaginary(c)")
+plt.colorbar(label="Escape iteration n")
+plt.tight_layout(); plt.show()
+# good enough
