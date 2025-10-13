@@ -147,34 +147,227 @@
 # plt.colorbar(im, fraction=0.046, pad=0.04)
 # plt.show()
 
+# '''
+# 5. Something more interesting.
+# '''
+# import numpy as np
+# import matplotlib.pyplot as plt
+
+# N, nmax, R = 500, 1000, 2.0
+# x = np.linspace(-1.75, 0.75, N) # using linspace for evenly spaced numbers over n - ni
+# y = np.linspace(-1.25, 1.25, N)
+# # https://www.youtube.com/watch?v=7K_a1mmraHU
+# X, Y = np.meshgrid(x, y) # creates two dimensional 'grid' from one-dimensional arrays x & y
+# c = X + 1j*Y # 1j is the imaginary number, where j represents 'i'
+
+# q = np.zeros_like(c) # Set c for that pixel using Equation 7: c = x+iy
+# iterations = np.zeros(c.shape, dtype=float) # .shape gives the dimension size of 'c' array in (x, y)
+
+# for n in range(1, nmax + 1): # stopping iteration and setting color to black at nmax (1000)
+#     q = q*q + c
+#     m = (iterations == 0) & (np.abs(q) > R)
+#     iterations[m] = n
+#     q[iterations > 0] = 0
+
+# cmap = plt.cm.turbo.copy()
+# cmap.set_bad('black')
+# img = np.ma.masked_equal(iterations, 0) 
+
+# plt.imshow(img, origin='lower', extent=[x.min(), x.max(), y.min(), y.max()], cmap=cmap)
+# plt.xlabel("Real(c)"); plt.ylabel("Imaginary(c)")
+# plt.colorbar(label="Escape iteration n")
+# plt.tight_layout(); plt.show()
+# # good enough
+
+# 14.2 An Everyday Image
+
+# from scipy import datasets
+# import numpy as np
+# import matplotlib.pyplot as plt
+
+# face = datasets.face(gray=True)
+
+# '''
+# 1. Default display:
+# '''
+# plt.figure()
+# plt.imshow(face, cmap="gray")
+# plt.title("1. Default display")
+# plt.axis("off")
+
+# '''
+# 2. Min/max and two rescaled displays
+# '''
+# vmin = float(face.min())
+# vmax = float(face.max())
+# print(f"2. minimum pixel = {vmin}, maximum pixel = {vmax}")
+
+# # (min, max/2.0)
+# plt.figure()
+# plt.imshow(face, cmap="gray", vmin=vmin, vmax=vmax/2.0)
+# plt.title("2. Scaled to (min, max/2)")
+# plt.axis("off")
+
+# # (min*2.0, max)
+# plt.figure()
+# plt.imshow(face, cmap="gray", vmin=vmin*2.0, vmax=vmax)
+# plt.title("2. Scaled to (min*2, max)")
+# plt.axis("off")
+
+# plt.show()
+
+# '''
+# 3. Print any 30x30 element section to the screen
+# '''
+# r0, c0 = 200, 300
+# block = face[r0:r0+30, c0:c0+30]
+# npp.set_printoptions(linewidth=200, suppress=True)
+# print(f"3. 30x30 block starting at (row {r0}, col {c0}):")
+# print(block)
+
+# '''
+# 4) Remove 100px border and compare
+# '''
+# cropped = face[100:-100, 100:-100]
+
+# plt.figure(figsize=(10, 4))
+# plt.subplot(1, 2, 1)
+# plt.imshow(face, cmap="gray")
+# plt.title("4. Original")
+# plt.axis("off")
+
+# plt.subplot(1, 2, 2)
+# plt.imshow(cropped, cmap="gray")
+# plt.title("4. Cropped (100 pixel border removed)")
+# plt.axis("off")
+
+# plt.tight_layout()
+# plt.show()
+
+# '''
+# 5 Row-wise sort (in ascending order) and compare to original
+# '''
+# sorted_rows = face.copy()
+# for i in range(sorted_rows.shape[0]):
+#     sorted_rows[i, :] = np.sort(sorted_rows[i, :])
+
+# plt.figure(figsize=(10, 4))
+# plt.subplot(1, 2, 1)
+# plt.imshow(face, cmap="gray")
+# plt.title("5. Original")
+# plt.axis("off")
+
+# plt.subplot(1, 2, 2)
+# plt.imshow(sorted_rows, cmap="gray")
+# plt.title("5. Row-wise sorted")
+# plt.axis("off")
+
+# plt.tight_layout()
+# plt.show()
+
+# '''
+# 6. Index sorted rows
+# '''
+# # https://numpy.org/doc/stable/reference/generated/numpy.empty_like.html
+# original = face  # use the original image
+# H, W = original.shape
+# weird = np.empty_like(original)
+
+# # Sort ascending
+# first_order = np.argsort(original[0])
+# weird[0] = original[0][first_order]
+
+# # For each next row i, apply the permutation that would sort row i-1 (of the ORIGINAL)
+# for i in range(1, H):
+#     order = np.argsort(original[i-1])
+#     weird[i] = original[i][order]
+
+# # Show original vs. index-sorted
+# plt.figure(figsize=(10, 4))
+# plt.subplot(1, 2, 1)
+# plt.imshow(original, cmap="gray")
+# plt.title("Original")
+# plt.axis("off")
+
+# plt.subplot(1, 2, 2)
+# plt.imshow(weird, cmap="gray")
+# plt.title("Sorted by previous row's order")
+# plt.axis("off")
+
+# plt.tight_layout()
+# plt.show()
+
+# 14.3. Imaging: Increasingly real stars
 '''
-5. Something more interesting.
+1. Attempt 1 - Utter Nothingness:
 '''
 import numpy as np
 import matplotlib.pyplot as plt
 
-N, nmax, R = 500, 1000, 2.0
-x = np.linspace(-1.75, 0.75, N) # using linspace for evenly spaced numbers over n - ni
-y = np.linspace(-1.25, 1.25, N)
-# https://www.youtube.com/watch?v=7K_a1mmraHU
-X, Y = np.meshgrid(x, y) # creates two dimensional 'grid' from one-dimensional arrays x & y
-c = X + 1j*Y # 1j is the imaginary number, where j represents 'i'
+img = np.zeros((1024, 1024), dtype=float)
+# https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html
+fig, ax = plt.subplots(figsize=(6, 6))
+# https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.imshow.html
+ax.imshow(img, cmap="gray", origin="upper", interpolation="nearest")
+ax.axis("off")
 
-q = np.zeros_like(c) # Set c for that pixel using Equation 7: c = x+iy
-iterations = np.zeros(c.shape, dtype=float) # .shape gives the dimension size of 'c' array in (x, y)
+print("14.3 Imaging: Increasingly real stars\nProblem 1: Utter Nothingness -\nThe file will be saved as bunny.pdf and displayed as an image.")
+# https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html
+fig.savefig("bunny.pdf", bbox_inches="tight")
 
-for n in range(1, nmax + 1): # stopping iteration and setting color to black at nmax (1000)
-    q = q*q + c
-    m = (iterations == 0) & (np.abs(q) > R)
-    iterations[m] = n
-    q[iterations > 0] = 0
+plt.show()
 
-cmap = plt.cm.turbo.copy()
-cmap.set_bad('black')
-img = np.ma.masked_equal(iterations, 0) 
+'''
+2. Attempt 2 - Realistic Nothingness
+'''
+import numpy as np
+import matplotlib.pyplot as plt
 
-plt.imshow(img, origin='lower', extent=[x.min(), x.max(), y.min(), y.max()], cmap=cmap)
-plt.xlabel("Real(c)"); plt.ylabel("Imaginary(c)")
-plt.colorbar(label="Escape iteration n")
-plt.tight_layout(); plt.show()
-# good enough
+range = np.random.default_rng()
+
+# mean 15, std 5
+noise = range.normal(loc=15.0, scale=5.0, size=(1024, 1024))
+# https://numpy.org/doc/2.3/reference/generated/numpy.clip.html
+noise = np.clip(noise, 0.0, 30.0)
+
+fig, ax = plt.subplots(figsize=(6, 6))
+ax.imshow(noise, cmap="gray", origin="upper", interpolation="nearest")
+ax.set_title("Realistic Nothingness (with normally distributed noise, 0–30)")
+ax.axis("off")
+
+print("\nProblem 2: Realistic Nothingness -\nThe file will be saved as realistic_nothingness.pdf and displayed as an image.")
+fig.savefig("realistic_nothingness.pdf", bbox_inches="tight")
+
+plt.show()
+
+# Part 2 (Problem 4.)
+
+fig3, ax3 = plt.subplots(figsize=(6, 6))
+# https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html
+ax3.imshow(noise, cmap="gray", vmin=0.0, vmax=255.0, origin="upper", interpolation="nearest")
+ax3.set_title("Dark Noise (display scaled 0, 255)")
+ax3.axis("off")
+fig3.savefig("dark_noise.pdf", bbox_inches="tight")
+plt.show()
+
+'''
+3. Attempt 3 - Unrealistic Star
+'''
+import numpy as np
+import matplotlib.pyplot as plt
+
+range = np.random.default_rng()
+
+# mean 15, std 5
+noise = range.normal(loc=15.0, scale=5.0, size=(1024, 1024))
+noise = np.clip(noise, 0.0, 30.0)
+
+height, width = noise.shape
+r_center = int(range.integers(height//2 - 20, width//2 + 21))
+c_center = int(range.integers(height//2 - 20, width//2 + 21))
+
+
+
+
+
+
