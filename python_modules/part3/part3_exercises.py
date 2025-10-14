@@ -559,87 +559,118 @@
 # fig.savefig("field_of_stars.pdf", bbox_inches="tight")
 # plt.show()
 
-'''
-7. Attempt 6 - A realistic starfield
-'''
-# This attempt is very similar to the last, except this time we will replace the function that makes the stars with one that
-# improves their realism a bit further. Write a function that takes as inputs two numbers, say γ and ε. The function
-# should check if γ is odd and make it odd if it isn’t. The function should then return a γ × γ numpy array containing a 
-# two-dimensional gaussianm with the peak at the venter, a FWHM of two pixels, and a peak value equal to ε. 
-# Use this function, instead of the approach used in the previous question, to add stars to your image. 
-# Make a pdf of your starfield, with appropriate choice of colormap and scaling.
+# '''
+# 7. Attempt 6 - A realistic starfield
+# '''
+# # This attempt is very similar to the last, except this time we will replace the function that makes the stars with one that
+# # improves their realism a bit further. Write a function that takes as inputs two numbers, say γ and ε. The function
+# # should check if γ is odd and make it odd if it isn’t. The function should then return a γ × γ numpy array containing a 
+# # two-dimensional gaussianm with the peak at the venter, a FWHM of two pixels, and a peak value equal to ε. 
+# # Use this function, instead of the approach used in the previous question, to add stars to your image. 
+# # Make a pdf of your starfield, with appropriate choice of colormap and scaling.
 
-import numpy as np
-import matplotlib.pyplot as plt
+# import numpy as np
+# import matplotlib.pyplot as plt
 
-def make_star_template(gamma, epsilon):
-    """
-    INPUTS:
-        gamma (integer), epsilon (float)
-    OUTPUTS:
-        template (array)
-    DESCRIPTION:
-        Returns a gamma×gamma centered 2D Gaussian (FWHM=2) with peak=epsilon. If gamma is even, it is incremented to the next odd.
-    """
-    if gamma % 2 == 0: # making gamma odd
-        gamma += 1
-    half = gamma // 2
-    # https://www.youtube.com/watch?v=gdeV4UeljUY
-    # https://numpy.org/doc/stable/reference/generated/numpy.mgrid.html
-    # need +1 to make half inclusive
-    yy, xx = np.mgrid[-half:half+1, -half:half+1]
-    sigma = 2.0 / (2.0 * np.sqrt(2.0 * np.log(2.0))) # from FWHM=2; helpful https://statproofbook.github.io/P/norm-fwhm.html
-    template = np.exp(-(xx**2 + yy**2) / (2.0 * sigma**2))
-    template *= (epsilon / template[half, half])
+# def make_star_template(gamma, epsilon):
+#     """
+#     INPUTS:
+#         gamma (integer), epsilon (float)
+#     OUTPUTS:
+#         template (array)
+#     DESCRIPTION:
+#         Returns a gamma×gamma centered 2D Gaussian (FWHM=2) with peak=epsilon. If gamma is even, it is incremented to the next odd.
+#     """
+#     if gamma % 2 == 0: # making gamma odd
+#         gamma += 1
+#     half = gamma // 2
+#     # https://www.youtube.com/watch?v=gdeV4UeljUY
+#     # https://numpy.org/doc/stable/reference/generated/numpy.mgrid.html
+#     # need +1 to make half inclusive
+#     yy, xx = np.mgrid[-half:half+1, -half:half+1]
+#     sigma = 2.0 / (2.0 * np.sqrt(2.0 * np.log(2.0))) # from FWHM=2; helpful https://statproofbook.github.io/P/norm-fwhm.html
+#     template = np.exp(-(xx**2 + yy**2) / (2.0 * sigma**2))
+#     template *= (epsilon / template[half, half])
     
-    return template
+#     return template
 
-def insert_star_field(image, n_stars=20, edge=7):
-    """
-    INPUTS:
-        image (array), n_stars (default=20), edge (default=7)
-    OUTPUTS:
-        new_image
-    DESCRIPTION:
-        Adds n_stars Gaussian stars. Each star uses odd β in {3,5,7,9,11,13,15}, center ≥ edge from border, peak ε = [10,60]*(β/2).
-    """
-    rng = np.random.default_rng()
-    new_image = image.copy()
-    height, width = new_image.shape
+# def insert_star_field(image, n_stars=20, edge=7):
+#     """
+#     INPUTS:
+#         image (array), n_stars (default=20), edge (default=7)
+#     OUTPUTS:
+#         new_image
+#     DESCRIPTION:
+#         Adds n_stars Gaussian stars. Each star uses odd β in {3,5,7,9,11,13,15}, center ≥ edge from border, peak ε = [10,60]*(β/2).
+#     """
+#     rng = np.random.default_rng()
+#     new_image = image.copy()
+#     height, width = new_image.shape
 
-    for _ in range(n_stars):
-        beta = int(rng.choice([3, 5, 7, 9, 11, 13, 15]))
-        half = beta // 2
-        r_center = rng.integers(edge, height - edge)
-        c_center = rng.integers(edge, width  - edge)
-        epsilon = rng.integers(10, 61) * (beta / 2.0)
-        template = make_star_template(beta, epsilon)
-        r1, r2 = r_center - half, r_center + half + 1
-        c1, c2 = c_center - half, c_center + half + 1
-        new_image[r1:r2, c1:c2] += template
+#     for _ in range(n_stars):
+#         beta = int(rng.choice([3, 5, 7, 9, 11, 13, 15]))
+#         half = beta // 2
+#         r_center = rng.integers(edge, height - edge)
+#         c_center = rng.integers(edge, width  - edge)
+#         epsilon = rng.integers(10, 61) * (beta / 2.0)
+#         template = make_star_template(beta, epsilon)
+#         r1, r2 = r_center - half, r_center + half + 1
+#         c1, c2 = c_center - half, c_center + half + 1
+#         new_image[r1:r2, c1:c2] += template
 
-    return new_image
+#     return new_image
 
-# base noise image
-rng = np.random.default_rng()
-noise = rng.normal(15.0, 5.0, (1024, 1024))
-noise = np.clip(noise, 0.0, 30.0)
+# # base noise image
+# rng = np.random.default_rng()
+# noise = rng.normal(15.0, 5.0, (1024, 1024))
+# noise = np.clip(noise, 0.0, 30.0)
 
-# adding starfield
-stars = insert_star_field(noise, n_stars=20, edge=7)
+# # adding starfield
+# stars = insert_star_field(noise, n_stars=20, edge=7)
 
-fig, ax = plt.subplots()
-ax.imshow(stars, cmap="gray", vmin=0.0, vmax=255.0)
-ax.set_title("Attempt 6 – Realistic Gaussian Starfield")
-ax.axis("off")
+# fig, ax = plt.subplots()
+# ax.imshow(stars, cmap="gray", vmin=0.0, vmax=255.0)
+# ax.set_title("Attempt 6 – Realistic Gaussian Starfield")
+# ax.axis("off")
 
-print("\nAttempt 6: Realistic starfield -\nThe file will be saved as realistic_starfield.pdf and displayed as an image.")
-fig.savefig("realistic_starfield.pdf", bbox_inches="tight")
-plt.show()
+# print("\nAttempt 6: Realistic starfield -\nThe file will be saved as realistic_starfield.pdf and displayed as an image.")
+# fig.savefig("realistic_starfield.pdf", bbox_inches="tight")
+# plt.show()
 
 # 14.4 File I/O Exercises
+'''
+1. Test1.txt
+'''
+# Read the three columns of Test1.txt into three numpy arrays
 
+import numpy as np
+# https://numpy.org/doc/2.3/reference/generated/numpy.loadtxt.html
+column1_test1, column2_test1, column3_test1 = np.loadtxt("Test1.txt", unpack=True)
+print("14.4 File I/O Exercises\nProblem 1:")
+print("Test1 – column 1:", column1_test1)
+print("Test1 – column 2:\n", column2_test1)
+print("Test1 – column 3:\n", column3_test1)
 
+'''
+2. Test2.txt
+'''
+# Read all the columns of Test2.txt into individual numpy arrays. Make sure to skip the first two rows.
 
+import numpy as np
+
+columns_test2 = np.loadtxt("Test2.txt", skiprows=2, unpack=True)
+print("\nProblem 2:")
+print("Test2.txt columns:", columns_test2)
+
+'''
+3. Test 3.txt
+'''
+# Read all the columns of Test3.txt into individual numpy arrays. Make sure to skip the header and footer rows.
+
+import numpy as np
+
+columns_test3 = np.loadtxt("Test3.txt", dtype=str, skiprows=34, max_rows=42, unpack=True)
+print("\nProblem 3:")
+print("Test3.txt columns:\n", columns_test3)
 
 
