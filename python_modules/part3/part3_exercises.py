@@ -1335,4 +1335,5 @@ print("In simple terms, the WFPC2 instrument's pixels were too big compared to t
 "across it's core, so the shape can't be reconstructed. The star would look (sorta) like a 1x1 pixel downsampling of " \
 "the 'Attempt 3' star blotch." \
 )
-# not too sure what diagram would be particularly helpful here.
+# Diagram: https://hst-docs.stsci.edu/drizzpac/chapter-3-description-of-the-drizzle-algorithm/3-1-imagereconstructionandrestorationtechnique
+# Not too sure what was expected for the diagram but this depiction of undersampling should do
