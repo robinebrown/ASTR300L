@@ -116,7 +116,7 @@
 # plt.figure(figsize=(6,6))
 # im = plt.imshow(dist, )
 # plt.title(f"Euclidean distance from ({x0}, {y0}) in a {N}×{N} image")
-# plt.colorbar(im, fraction=0.046, pad=0.04, label="Distance (pixels)")
+# plt.colorbar(im, fraction=0.046, pad=0.04, label="Distance (pixels)") # https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html
 # plt.axis("off")
 # plt.show()
 
@@ -134,18 +134,18 @@
 
 # # grid
 # N = 150
-# yy, xx = np.indices((N, N))
+# y, x = np.indices((N, N))
 
-# a, b = 1.0, 18.0
-# c, d = 1.0, 24.0
+# a, b = 200, 200
+# c, d = 200, 200
 
-# v = a*np.sin(2*np.pi*xx/b) + c*np.cos(2*np.pi*yy/d)
+# v = a*np.sin(2*np.pi*x/b) + c*np.cos(2*np.pi*y/d)
 
-# plt.figure(figsize=(6,6))
-# im = plt.imshow(v, )
-# plt.title("v(x,y) = a sin(2πx/b) + c cos(2πy/d)")
+# plt.figure()
+# image = plt.imshow(v)
+# plt.title({"v(x,y) = a sin(2πx/b) + c cos(2πy/d)"})
 # plt.axis("off")
-# plt.colorbar(im, fraction=0.046, pad=0.04)
+# plt.colorbar(image, fraction=0.046, pad=0.04)
 # plt.show()
 
 # '''
@@ -164,7 +164,7 @@
 # q = np.zeros_like(c) # Set c for that pixel using Equation 7: c = x+iy
 # iterations = np.zeros(c.shape, dtype=float) # .shape gives the dimension size of 'c' array in (x, y)
 
-# https://www.youtube.com/watch?v=BmpsWs-kNTM
+# # https://www.youtube.com/watch?v=BmpsWs-kNTM
 # for n in range(1, nmax + 1): # stopping iteration and setting color to black at nmax (1000)
 #     q = q*q + c
 #     m = (iterations == 0) & (np.abs(q) > R)
@@ -300,125 +300,148 @@
 # plt.tight_layout()
 # plt.show()
 
-# # 14.3. Imaging: Increasingly real stars
-# '''
-# 1. Attempt 1 - Utter Nothingness:
-# '''
-# # Generate a two dimensional, 1024 × 1024 element array, in which each element is equal to zero. 
-# # Display this ”image” to the screen. Then, in a separate command, output the image in pdf format
-# # (hint: fig.savefig(’bunny.pdf’)). This might be the night sky if the universe was totally empty.
+# 14.3. Imaging: Increasingly real stars
+'''
+1. Attempt 1 - Utter Nothingness:
+'''
+# Generate a two dimensional, 1024 × 1024 element array, in which each element is equal to zero. 
+# Display this ”image” to the screen. Then, in a separate command, output the image in pdf format
+# (hint: fig.savefig(’bunny.pdf’)). This might be the night sky if the universe was totally empty.
 
-# import numpy as np
-# import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.pyplot as plt
 
-# img = np.zeros((1024, 1024), dtype=float)
-# # https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html
-# fig, ax = plt.subplots()
-# # https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.imshow.html
-# ax.imshow(img, cmap="gray", interpolation="nearest")
-# ax.set_title("Utter Nothingness")
-# ax.axis("off")
+img = np.zeros((1024, 1024), dtype=float)
+# https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html
+fig, ax = plt.subplots()
+# https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.imshow.html
+ax.imshow(img, cmap="gray", interpolation="nearest") #using 'nearest' universally so pixels don't smudge. not sure why we're saving these as PDFs because the interpolation doesn't seem to affect the saved file which is odd
+ax.set_title("Utter Nothingness")
+ax.axis("off")
 
-# print("14.3 Imaging: Increasingly real stars\nAttempt 1: Utter Nothingness -\nThe file will be saved as utter_nothingness.pdf and displayed as an image.")
-# # https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html
-# fig.savefig("bunny.pdf", bbox_inches="tight")
+print("14.3 Imaging: Increasingly real stars\nAttempt 1: Utter Nothingness -\nThe file will be saved as utter_nothingness.pdf and displayed as an image.")
+# https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html
+fig.savefig("utter_nothingness.pdf", bbox_inches="tight") # using 'tight' universally
 
-# plt.show()
+plt.show()
 
-# '''
-# 2. Attempt 2 - Realistic Nothingness
-# '''
-# # Generate a two dimensional, 1024 × 1024 element array, in which each element contains a normally
-# # distributed random number between 0.0 and 30.0. Display this ”image” to the screen, and
-# # output it in pdf format. This image should look like noise (which is what we made the array to be). 
-# # It might be an image of a completely empty night sky, but takem with a more realistic detector.
+# Output:
+# 14.3 Imaging: Increasingly real stars
+# Attempt 1: Utter Nothingness -
+# The file will be saved as utter_nothingness.pdf and displayed as an image.
 
-# import numpy as np
-# import matplotlib.pyplot as plt
+'''
+2. Attempt 2 - Realistic Nothingness
+'''
+# Generate a two dimensional, 1024 × 1024 element array, in which each element contains a normally
+# distributed random number between 0.0 and 30.0. Display this ”image” to the screen, and
+# output it in pdf format. This image should look like noise (which is what we made the array to be). 
+# It might be an image of a completely empty night sky, but takem with a more realistic detector.
 
-# rng = np.random.default_rng()
+import numpy as np
+import matplotlib.pyplot as plt
 
-# # mean 15, std 5
-# # https://numpy.org/doc/stable/reference/random/generated/numpy.random.Generator.normal.html
-# noise = rng.normal(loc=15.0, scale=5.0, size=(1024, 1024))
-# # https://numpy.org/doc/2.3/reference/generated/numpy.clip.html
-# # clipping to keep only values 0-30
-# noise = np.clip(noise, 0.0, 30.0)
+rng = np.random.default_rng()
 
-# fig, ax = plt.subplots()
-# ax.imshow(noise, cmap="gray", interpolation="nearest")
-# ax.set_title("Realistic Nothingness (with normally distributed noise, 0–30)")
-# ax.axis("off")
+# mean 15, std 5
+# https://numpy.org/doc/stable/reference/random/generated/numpy.random.Generator.normal.html
+noise = rng.normal(loc=15.0, scale=5.0, size=(1024, 1024))
+# https://numpy.org/doc/2.3/reference/generated/numpy.clip.html
+# clipping to keep only values 0-30
+noise = np.clip(noise, 0.0, 30.0)
 
-# print("\nAttempt 2: Realistic nothingness -\nThe file will be saved as realistic_nothingness.pdf and displayed as an image.")
-# fig.savefig("realistic_nothingness.pdf", bbox_inches="tight")
+fig, ax = plt.subplots()
+ax.imshow(noise, cmap="gray", interpolation="nearest")
+ax.set_title("Realistic Nothingness (with normally distributed noise, 0–30)")
+ax.axis("off")
 
-# plt.show()
+print("\nAttempt 2: Realistic nothingness -\nThe file will be saved as realistic_nothingness.pdf and displayed as an image.")
+fig.savefig("realistic_nothingness.pdf", bbox_inches="tight")
 
-# '''
-# 3. Attempt 2 - Part 2
-# '''
-# # A huge factor in how an image looks is how the values in the array translate to the colormap. 
-# # With the defaults, the min and max of the array are set to the min and max of the colormap. 
-# # Let’s change that. Display the ”noise image” from just above so that 0.0 is black and 255.0 
-# # (rather than 50.0) is white. Since the max value in the array is 30, this should make the brightest 
-# # displayed color a dark grey. Make a pdf of the result. The image should now look like ”dark noise”.
+plt.show()
 
-# fig, ax = plt.subplots()
-# ax.imshow(noise, cmap="gray", vmin=0.0, vmax=255.0, interpolation="nearest")
-# ax.set_title("Dark Noise (display scaled 0, 255)")
-# ax.axis("off")
+# Output:
+# Attempt 2: Realistic nothingness -
+# The file will be saved as realistic_nothingness.pdf and displayed as an image.
 
-# print("\nAttempt 2 Part 2: Dark noise -\nThe file will be saved as dark_noise.pdf and displayed as an image.")
-# fig.savefig("dark_noise.pdf", bbox_inches="tight")
-# plt.show()
+'''
+3. Attempt 2 - Part 2
+'''
+# A huge factor in how an image looks is how the values in the array translate to the colormap. 
+# With the defaults, the min and max of the array are set to the min and max of the colormap. 
+# Let’s change that. Display the ”noise image” from just above so that 0.0 is black and 255.0 
+# (rather than 50.0) is white. Since the max value in the array is 30, this should make the brightest 
+# displayed color a dark grey. Make a pdf of the result. The image should now look like ”dark noise”.
 
-# '''
-# 4. Attempt 3 - Unrealistic Star
-# '''
-# # Take the ”noise” image from the previous question. Pick a position at random near the center of the image. 
-# # Manually set all the elements of the array within a 5 × 5 region centered on that point to be all equal to 255.0. 
-# # Redisplay this image using a greyscale colormap with black equal to 0.0 and white equal to 255.0. 
-# # Congratulations on making a star!
+fig, ax = plt.subplots()
+ax.imshow(noise, cmap="gray", vmin=0.0, vmax=255.0, interpolation="nearest") # 0-255
+ax.set_title("Dark Noise (display scaled 0, 255)")
+ax.axis("off")
 
-# import numpy as np
-# import matplotlib.pyplot as plt
+print("\nAttempt 2 Part 2: Dark noise -\nThe file will be saved as dark_noise.pdf and displayed as an image.")
+fig.savefig("dark_noise.pdf", bbox_inches="tight")
+plt.show()
 
-# rng = np.random.default_rng()
+# Output:
 
-# noise = rng.normal(loc=15.0, scale=5.0, size=(1024, 1024))
-# noise = np.clip(noise, 0.0, 30.0)
+# Attempt 2 Part 2: Dark noise -
+# The file will be saved as dark_noise.pdf and displayed as an image.
 
-# height, width = noise.shape
-# r_center = rng.integers(height//2 - 20, height//2 + 21)
-# c_center = rng.integers(width//2 - 20, width//2 + 21)
+'''
+4. Attempt 3 - Unrealistic Star
+'''
+# Take the ”noise” image from the previous question. Pick a position at random near the center of the image. 
+# Manually set all the elements of the array within a 5 × 5 region centered on that point to be all equal to 255.0. 
+# Redisplay this image using a greyscale colormap with black equal to 0.0 and white equal to 255.0. 
+# Congratulations on making a star!
 
-# half = 2
-# r1, r2 = r_center - half, r_center + half + 1
-# c1, c2 = c_center - half, c_center + half + 1
+# fyi this problem and the rest of this section took me an insanely long time :D
+# https://www.youtube.com/watch?v=PbKOrSottRQ "slicing"
+import numpy as np
+import matplotlib.pyplot as plt
 
-# star = noise.copy() # tried doing star = noise first but realised it was changing the original array #cringe
-# star[r1:r2, c1:c2] = 255.0
+rng = np.random.default_rng()
 
-# # black=0, white=255
-# fig, ax = plt.subplots()
-# ax.imshow(star, cmap="gray", vmin=0.0, vmax=255.0, interpolation="nearest")
-# ax.set_title(f"Attempt 3: Unrealistic Star ({r_center},{c_center})")
-# ax.axis("off")
+noise = rng.normal(loc=15.0, scale=5.0, size=(1024, 1024))
+noise = np.clip(noise, 0.0, 30.0)
 
-# print("\nAttempt 3: Unrealistic star -\nThe file will be saved as unrealistic_star.pdf and displayed as an image.")
-# fig.savefig("unrealistic_star.pdf", bbox_inches="tight")
-# plt.show()
+# https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html
+height, width = noise.shape # 1024h x 1024w
+# https://numpy.org/doc/stable/reference/random/generated/numpy.random.Generator.integers.html
+r_center = rng.integers(height//2 - 20, height//2 + 21) # +/- 20 near center, could be lowered
+c_center = rng.integers(width//2 - 20, width//2 + 21) # same ^
 
-# '''
-# 5. Attempt 4 - Slightly better star
-# '''
-# # The above is not a very realistic looking star, so let’s do better. Revert back to the ”noise” image with no star. and
-# # pick a random position near the center. Hint: doing the following step as a function, where you send the function the
-# # image and the appropriatae details of the ”star”, and the function returns a new image with the star inserted, will save you 
-# # time in the long run. For each element in a 5 × 5 region centered on that point, randomly generate a number between 50 and 150 
-# # and ADD it to the existing number in that element. So for example if the element contains 18 and you generate 107 for that element, 
-# # the result should be 125. Display the new image, and congratulate yourself on making a realistic(ish) looking star.
+# 5x5 block = -2,-1,0,1,2, defining 2 row/column for numpy slicing,
+half = 2 # radiuss for 5x5 block
+r1, r2 = r_center - half, r_center + half + 1 # +1 to include all rows in 5x5 since the numpy slice exlucdes the stop
+c1, c2 = c_center - half, c_center + half + 1 # same ^ for columns
+
+star_addition = noise.copy() # tried doing star = noise first but realised it was changing the original array #cringe
+# https://numpy.org/doc/stable/user/basics.indexing.html
+star_addition[r1:r2, c1:c2] = 255.0 # star color 255=white
+
+fig, ax = plt.subplots()
+ax.imshow(star_addition, cmap="gray", vmin=0.0, vmax=255.0, interpolation="nearest")
+ax.set_title(f"Attempt 3: Unrealistic Star ({r_center},{c_center})") # star coords
+ax.axis("off")
+
+print("\nAttempt 3: Unrealistic star -\nThe file will be saved as unrealistic_star.pdf and displayed as an image.")
+fig.savefig("unrealistic_star.pdf", bbox_inches="tight")
+plt.show()
+
+# Output:
+# Attempt 3: Unrealistic star -
+# The file will be saved as unrealistic_star.pdf and displayed as an image.
+
+'''
+5. Attempt 4 - Slightly better star
+'''
+# The above is not a very realistic looking star, so let’s do better. Revert back to the ”noise” image with no star. and
+# pick a random position near the center. Hint: doing the following step as a function, where you send the function the
+# image and the appropriatae details of the ”star”, and the function returns a new image with the star inserted, will save you 
+# time in the long run. For each element in a 5 × 5 region centered on that point, randomly generate a number between 50 and 150 
+# and ADD it to the existing number in that element. So for example if the element contains 18 and you generate 107 for that element, 
+# the result should be 125. Display the new image, and congratulate yourself on making a realistic(ish) looking star.
 
 # import numpy as np
 # import matplotlib.pyplot as plt
@@ -439,7 +462,7 @@
 # # random value 50-150 (151 excluded)
 # patch = rng.integers(50, 151, size=(5, 5))
 # star = noise.copy()
-# star[r1:r2, c1:c2] = star[r1:r2, c1:c2] + patch
+# star[r1:r2, c1:c2] = star[r1:r2, c1:c2] + patch # slicing new 5x5 50-150 patch
 
 # np.clip(star, 0.0, 255.0, out=star)
 
@@ -452,191 +475,212 @@
 # fig.savefig("slightly_better_star.pdf", bbox_inches="tight")
 # plt.show()
 
-# # rewritten using function as suggested 
-# import numpy as np
-# import matplotlib.pyplot as plt
+# rewritten using function 
+import numpy as np
+import matplotlib.pyplot as plt
 
-# def insert_star(image, size=5, add_low=50, add_high=150, center_window=20):
-#     """
-#     INPUTS:
-#     image (array), size (default=5), add_low (default=50), add_high (default=150), center_window (default=20))
-#     OUTPUTS:
-#     new_image, (r_center, c_center)
-#     DESCRIPTION:
-#     Adds a 5×5 “star” by adding random values in [add_low, add_high] to a patch centered near middle of the image. Returns a copy.
-#     """
-#     rng = np.random.default_rng()
-#     new_image = image.copy()
-#     height, width = new_image.shape
+def insert_star(image, size=5, add_low=50, add_high=150, center_window=20): #
+    """
+    INPUTS:
+    image (array), size (default=5), add_low (default=50), add_high (default=150), center_window (default=20))
+    OUTPUTS:
+    new_image, (r_center, c_center)
+    DESCRIPTION:
+    Adds a 5x5 “star” by adding random values in [add_low, add_high] to a patch centered near middle of the image. Returns a copy.
+    """
+    rng = np.random.default_rng()
+    new_image = image.copy()
+    height, width = new_image.shape
 
-#     # centering
-#     r_center = rng.integers(height//2 - center_window, height//2 + center_window + 1)
-#     c_center = rng.integers(width//2 - center_window, width//2 + center_window + 1)
+    # centering, same as before
+    r_center = rng.integers(height//2 - center_window, height//2 + center_window + 1)
+    c_center = rng.integers(width//2 - center_window, width//2 + center_window + 1)
 
-#     # patch
-#     half = size // 2
-#     r1, r2 = r_center - half, r_center + half + 1
-#     c1, c2 = c_center - half, c_center + half + 1
+    # patch slice build, same as before
+    half = size // 2
+    r1, r2 = r_center - half, r_center + half + 1
+    c1, c2 = c_center - half, c_center + half + 1
 
-#     # per-pixel additions, [add_low, add_high]
-#     add_patch = rng.integers(add_low, add_high + 1, size=(size, size))
-#     new_image[r1:r2, c1:c2] = new_image[r1:r2, c1:c2] + add_patch
+    # per-pixel additions, [add_low, add_high]
+    add_patch = rng.integers(add_low, add_high + 1, size=(size, size))
+    # adds new patch to image
+    new_image[r1:r2, c1:c2] = new_image[r1:r2, c1:c2] + add_patch
 
-#     return new_image, (r_center, c_center)
+    return new_image, (r_center, c_center)
 
-# # base noise image (no star)
-# rng = np.random.default_rng()
-# noise = rng.normal(15.0, 5.0, (1024, 1024))
-# noise = np.clip(noise, 0.0, 30.0)
+# base noise image (no star)
+rng = np.random.default_rng()
+noise = rng.normal(15.0, 5.0, (1024, 1024))
+noise = np.clip(noise, 0.0, 30.0)
 
-# # adding star to noise image
-# star, (r_center, c_center) = insert_star(noise, size=5, add_low=50, add_high=150, center_window=20)
+# adding star
+star, (r_center, c_center) = insert_star(noise, size=5, add_low=50, add_high=150, center_window=20)
 
-# fig, ax = plt.subplots()
-# ax.imshow(star, cmap="gray", vmin=0.0, vmax=255.0, interpolation="nearest")
-# ax.set_title(f"Attempt 4 – Slightly Better Star ({r_center},{c_center})")
-# ax.axis("off")
+fig, ax = plt.subplots()
+ax.imshow(star, cmap="gray", vmin=0.0, vmax=255.0, interpolation="nearest")
+ax.set_title(f"Attempt 4 – Slightly Better Star ({r_center},{c_center})")
+ax.axis("off")
 
-# print("\nAttempt 4: Slightly better star -\nThe file will be saved as slightly_better_star.pdf and displayed as an image.")
-# fig.savefig("better_star.pdf", bbox_inches="tight")
-# plt.show()
+print("\nAttempt 4: Slightly better star -\nThe file will be saved as slightly_better_star.pdf and displayed as an image.")
+fig.savefig("better_star.pdf", bbox_inches="tight")
+plt.show()
 
-# '''
-# 6. Attempt 5 - A field of stars
-# '''
-# # In this attempt we will add multiple stars of different sizes to the image and make the bigger ones more likely to be brighter.
-# # We will do this by automatically generating them. Use numpy to randomly pick twenty positions (so, x, y coordinate) in the ”image”, 
-# # each at least 5 pixels from the edge of the array. Let’s call these positions α. For each α, generate a random ODD number between 3 and 15.
-# # Let’s call these numbers β. Centered on each α, consider a β × β region. For each eleent in this region, generate a random number 
-# # between 10 and 60, nultiply it by β/2 (being sure to use the appropriate β for that α) and add the result to the
-# # number already in that element. Display the final ”image”, using a greyscale colormap with black equal to 0.0 and white equal to 255.0. 
-# # Congratulations on making a whole field of stars!
+# Output:
+# Attempt 4: Slightly better star -
+# The file will be saved as slightly_better_star.pdf and displayed as an image.
 
-# import numpy as np
-# import matplotlib.pyplot as plt
 
-# def insert_star_field(image, n_stars=20, edge=5):
-#     """
-#     INPUTS:
-#         image (array), n_stars (default=20), edge (default=5)
-#     OUTPUTS:
-#         new_image
-#     DESCRIPTION:
-#         Adds n_stars stars. Each star uses an odd β in {3,5,7,9,11,13,15}; a β×β patch gets + (uniform[10,60] * β/2) per pixel.
-#     """
-#     rng = np.random.default_rng()
-#     new_image = image.copy()
-#     height, width = new_image.shape
+'''
+6. Attempt 5 - A field of stars
+'''
+# In this attempt we will add multiple stars of different sizes to the image and make the bigger ones more likely to be brighter.
+# We will do this by automatically generating them. Use numpy to randomly pick twenty positions (so, x, y coordinate) in the ”image”, 
+# each at least 5 pixels from the edge of the array. Let’s call these positions α. For each α, generate a random ODD number between 3 and 15.
+# Let’s call these numbers β. Centered on each α, consider a β × β region. For each eleent in this region, generate a random number 
+# between 10 and 60, nultiply it by β/2 (being sure to use the appropriate β for that α) and add the result to the
+# number already in that element. Display the final ”image”, using a greyscale colormap with black equal to 0.0 and white equal to 255.0. 
+# Congratulations on making a whole field of stars!
 
-#     for _ in range(n_stars): # '_' because function isn't using the loop variable
-#         r_center = rng.integers(edge, height - edge) # no closer than 5 pixels from border (edge default)
-#         c_center = rng.integers(edge, width  - edge) # same as above
-#         # https://numpy.org/doc/stable/reference/random/generated/numpy.random.Generator.choice.html
-#         beta = rng.choice([3, 5, 7, 9, 11, 13, 15])
+# +3 hours
+import numpy as np
+import matplotlib.pyplot as plt
 
-#         half = beta // 2
-#         r1, r2 = r_center - half, r_center + half + 1
-#         c1, c2 = c_center - half, c_center + half + 1
+def insert_star_field(image, n_stars=20, edge=5):
+    """
+    INPUTS:
+        image (array), n_stars (default=20), edge (default=5)
+    OUTPUTS:
+        new_image
+    DESCRIPTION:
+        Adds n_stars stars. Each star uses an odd β in 3,5,7,9,11,13,15; a β×β patch gets + (uniform random[10,60] * β/2) per pixel.
+    """
+    rng = np.random.default_rng()
+    new_image = image.copy()
+    height, width = new_image.shape
 
-#         add_patch = rng.integers(10, 61, size=(beta, beta)) * (beta / 2.0)
-#         new_image[r1:r2, c1:c2] += add_patch
+    for _ in range(n_stars): # '_' since function isn't using the loop variable
+        r_center = rng.integers(edge, height - edge) # no closer than 5 pixels from border (edge default)
+        c_center = rng.integers(edge, width  - edge) # same as above
+        # https://numpy.org/doc/stable/reference/random/generated/numpy.random.Generator.choice.html
+        beta = rng.choice([3, 5, 7, 9, 11, 13, 15])
 
-#     return new_image
+        half = beta // 2
+        # https://numpy.org/doc/stable/reference/generated/numpy.max.html
+        m = max(edge, half) # choosing the larger of edge and half to guarantee the whole patch stays inside the image
+        r_center = rng.integers(m, height - m)
+        c_center = rng.integers(m, width  - m)
 
-# # base noise image (no star)
-# rng = np.random.default_rng()
-# noise = rng.normal(15.0, 5.0, (1024, 1024))
-# noise = np.clip(noise, 0.0, 30.0)
+        r1, r2 = r_center - half, r_center + half + 1
+        c1, c2 = c_center - half, c_center + half + 1
 
-# # adding a field of stars
-# stars = insert_star_field(noise, n_stars=20, edge=5)
+        add_patch = rng.integers(10, 61, size=(beta, beta)) * (beta / 2.0) # 10-60 random int (61 excluded), size= array of betaxbeta (patch): each pixel gets a random 10-60value, multiplying by beta/2 because the problem says to
+        new_image[r1:r2, c1:c2] += add_patch # both floats
 
-# fig, ax = plt.subplots()
-# ax.imshow(stars, cmap="gray", vmin=0.0, vmax=255.0, interpolation="nearest")
-# ax.set_title("Attempt 5 – Field of Stars")
-# ax.axis("off")
+    return new_image
 
-# print("\nAttempt 5: Field of Stars -\nThe file will be saved as field_of_stars.pdf and displayed as an image.")
-# fig.savefig("field_of_stars.pdf", bbox_inches="tight")
-# plt.show()
+# base noise image (no star)
+rng = np.random.default_rng()
+noise = rng.normal(15.0, 5.0, (1024, 1024))
+noise = np.clip(noise, 0.0, 30.0)
 
-# '''
-# 7. Attempt 6 - A realistic starfield
-# '''
-# # This attempt is very similar to the last, except this time we will replace the function that makes the stars with one that
-# # improves their realism a bit further. Write a function that takes as inputs two numbers, say γ and ε. The function
-# # should check if γ is odd and make it odd if it isn’t. The function should then return a γ × γ numpy array containing a 
-# # two-dimensional gaussianm with the peak at the venter, a FWHM of two pixels, and a peak value equal to ε. 
-# # Use this function, instead of the approach used in the previous question, to add stars to your image. 
-# # Make a pdf of your starfield, with appropriate choice of colormap and scaling.
+# adding a field of stars
+stars = insert_star_field(noise, n_stars=20, edge=5)
 
-# import numpy as np
-# import matplotlib.pyplot as plt
+fig, ax = plt.subplots()
+ax.imshow(stars, cmap="gray", vmin=0.0, vmax=255.0, interpolation="nearest")
+ax.set_title("Attempt 5 – Field of Stars")
+ax.axis("off")
 
-# def make_star_template(gamma, epsilon):
-#     """
-#     INPUTS:
-#         gamma (integer), epsilon (float)
-#     OUTPUTS:
-#         template (array)
-#     DESCRIPTION:
-#         Returns a gamma×gamma centered 2D Gaussian (FWHM=2) with peak=epsilon. If gamma is even, it is incremented to the next odd.
-#     """
-#     if gamma % 2 == 0: # making gamma odd
-#         gamma += 1
-#     half = gamma // 2
-#     # https://www.youtube.com/watch?v=gdeV4UeljUY
-#     # https://numpy.org/doc/stable/reference/generated/numpy.mgrid.html
-#     # need +1 to make half inclusive
-#     yy, xx = np.mgrid[-half:half+1, -half:half+1]
-#     sigma = 2.0 / (2.0 * np.sqrt(2.0 * np.log(2.0))) # from FWHM=2; helpful https://statproofbook.github.io/P/norm-fwhm.html
-#     template = np.exp(-(xx**2 + yy**2) / (2.0 * sigma**2))
-#     template *= (epsilon / template[half, half])
+print("\nAttempt 5: Field of Stars -\nThe file will be saved as field_of_stars.pdf and displayed as an image.")
+fig.savefig("field_of_stars.pdf", bbox_inches="tight")
+plt.show()
+
+# Output:
+# Attempt 5: Field of Stars -
+# The file will be saved as field_of_stars.pdf and displayed as an image.
+
+'''
+7. Attempt 6 - A realistic starfield
+'''
+# This attempt is very similar to the last, except this time we will replace the function that makes the stars with one that
+# improves their realism a bit further. Write a function that takes as inputs two numbers, say γ and ε. The function
+# should check if γ is odd and make it odd if it isn’t. The function should then return a γ × γ numpy array containing a 
+# two-dimensional gaussianm with the peak at the venter, a FWHM of two pixels, and a peak value equal to ε. 
+# Use this function, instead of the approach used in the previous question, to add stars to your image. 
+# Make a pdf of your starfield, with appropriate choice of colormap and scaling.
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+def make_star_template(gamma, epsilon):
+    """
+    INPUTS:
+        gamma (integer), epsilon (float)
+    OUTPUTS:
+        template (array)
+    DESCRIPTION:
+        Returns a gammaxgamma centered 2D Gaussian (FWHM=2) with peak=epsilon. If gamma is even, it is incremented to the next odd.
+    """
+    if gamma % 2 == 0: # making gamma odd
+        gamma += 1
+    half = gamma // 2
+    # https://www.youtube.com/watch?v=gdeV4UeljUY
+    # https://numpy.org/doc/stable/reference/generated/numpy.mgrid.html
+    # need +1 to make half inclusive like before
+    yy, xx = np.mgrid[-half:half+1, -half:half+1] # coord grid (center= 0,0). [-half:half+1] gives gamma points
+    sigma = 2.0 / (2.0 * np.sqrt(2.0 * np.log(2.0))) # from FWHM=2. np.log gives natural log. https://statproofbook.github.io/P/norm-fwhm.html # basic but refresher
+    # https://numpy.org/doc/stable/reference/generated/numpy.exp.html
+    template = np.exp(-(xx**2 + yy**2) / (2.0 * sigma**2)) #2d gaussian #https://en.wikipedia.org/wiki/Gaussian_function
+    template *= (epsilon / template[half, half]) #center pixel = epsilon, template[half,half] = peak
     
-#     return template
+    return template
 
-# def insert_star_field(image, n_stars=20, edge=7):
-#     """
-#     INPUTS:
-#         image (array), n_stars (default=20), edge (default=7)
-#     OUTPUTS:
-#         new_image
-#     DESCRIPTION:
-#         Adds n_stars Gaussian stars. Each star uses odd β in {3,5,7,9,11,13,15}, center ≥ edge from border, peak ε = [10,60]*(β/2).
-#     """
-#     rng = np.random.default_rng()
-#     new_image = image.copy()
-#     height, width = new_image.shape
+def insert_star_field(image, n_stars=20, edge=7):
+    """
+    INPUTS:
+        image (array), n_stars (default=20), edge (default=7)
+    OUTPUTS:
+        new_image
+    DESCRIPTION:
+        Adds n_stars Gaussian stars. Each star uses odd β in {3,5,7,9,11,13,15}, center >= edge from border, peak ε = [10,60]*(β/2).
+    """
+    rng = np.random.default_rng()
+    new_image = image.copy()
+    height, width = new_image.shape
 
-#     for _ in range(n_stars):
-#         beta = int(rng.choice([3, 5, 7, 9, 11, 13, 15]))
-#         half = beta // 2
-#         r_center = rng.integers(edge, height - edge)
-#         c_center = rng.integers(edge, width  - edge)
-#         epsilon = rng.integers(10, 61) * (beta / 2.0)
-#         template = make_star_template(beta, epsilon)
-#         r1, r2 = r_center - half, r_center + half + 1
-#         c1, c2 = c_center - half, c_center + half + 1
-#         new_image[r1:r2, c1:c2] += template
+    for _ in range(n_stars):
+        beta = int(rng.choice([3, 5, 7, 9, 11, 13, 15])) # odd beta
+        half = beta // 2 # radius for slicing
+        r_center = rng.integers(edge, height - edge) # center >= edge from borders so full betaxbeta fits
+        c_center = rng.integers(edge, width  - edge) # same ^
+        epsilon = rng.integers(10, 61) * (beta / 2.0) # basically same as before. epsilon = peak brightness with same beta/2 multiplication
+        template = make_star_template(beta, epsilon) # gaussian stamp with beta size and epislon peak
+        r1, r2 = r_center - half, r_center + half + 1 # slice boundaries same as before
+        c1, c2 = c_center - half, c_center + half + 1 # same ^
+        new_image[r1:r2, c1:c2] += template # same as before
 
-#     return new_image
+    return new_image
 
-# # base noise image
-# rng = np.random.default_rng()
-# noise = rng.normal(15.0, 5.0, (1024, 1024))
-# noise = np.clip(noise, 0.0, 30.0)
+# base noise image
+rng = np.random.default_rng()
+noise = rng.normal(15.0, 5.0, (1024, 1024))
+noise = np.clip(noise, 0.0, 30.0)
 
-# # adding starfield
-# stars = insert_star_field(noise, n_stars=20, edge=7)
+# adding starfield
+stars = insert_star_field(noise, n_stars=20, edge=7)
 
-# fig, ax = plt.subplots()
-# ax.imshow(stars, cmap="gray", vmin=0.0, vmax=255.0)
-# ax.set_title("Attempt 6 – Realistic Gaussian Starfield")
-# ax.axis("off")
+fig, ax = plt.subplots()
+ax.imshow(stars, cmap="gray", vmin=0.0, vmax=255.0)
+ax.set_title("Attempt 6 – Realistic Gaussian Starfield")
+ax.axis("off")
 
-# print("\nAttempt 6: Realistic starfield -\nThe file will be saved as realistic_starfield.pdf and displayed as an image.")
-# fig.savefig("realistic_starfield.pdf", bbox_inches="tight")
-# plt.show()
+print("\nAttempt 6: Realistic starfield -\nThe file will be saved as realistic_starfield.pdf and displayed as an image.")
+fig.savefig("realistic_starfield.pdf", bbox_inches="tight")
+plt.show()
+
+# Output:
+# Attempt 6: Realistic starfield -
+# The file will be saved as realistic_starfield.pdf and displayed as an image.
 
 # # 14.4 File I/O Exercises
 # '''
@@ -694,7 +738,7 @@
 # # https://docs.astropy.org/en/stable/io/fits/api/files.html
 # # https://docs.astropy.org/en/latest/io/fits/api/headers.html
 # header = fits.open("Bband.fits")[0].header
-# header.remove("HISTORY", remove_all=True) # gets rid of the ridiculously long file history
+# header.remove("HISTORY", remove_all=True) # gets rid of the long file history
 # header.remove("COMMENT", remove_all=True) # gets rid of associated comments (don't care)
 
 # # https://docs.astropy.org/en/stable/_modules/astropy/io/fits/header.html
@@ -702,7 +746,7 @@
 # print("\nProblems 1 & 2: Examining Bband.fits (see above for FITS info)")
 # print("\nThe Bband.fits file contains a single HDU and a single data array. The 2009x2009 array is a 2-D image of M16 " \
 #       "(OBJECT='M16') through the B filter (FILTER='B') stored as 32-bit floats (BITPIX = -32). The header info (from " \
-#       "hdulist.info) indicates that this is a PrimaryHDU with 914 cards; image was captured on 2015-07-27T09:33:04.368 (DATE-OBS) " \
+#       "hdulist.info) indicates that this is a PrimaryHDU with 914 cards. Image was captured on 2015-07-27T09:33:04.368 (DATE-OBS) " \
 #       "with a 120 second exposure (EXPTIME) on the LCOGT 2-m telescope at Haleakala Observatory using instrument fs02 " \
 #       "(TELESCOP='2m0-01', INSTRUME='fs02'). There are other metrics, such as the pixel scale being 0.30104 arcsec per pixel " \
 #       "(PIXSCALE/SECPIX=0.30104) and detector characteristics like gain (GAIN) and read noise (RDNOISE). It also contains " \
@@ -714,29 +758,29 @@
 # # You should have discovered that the file contains an image. 
 # # Display the image, using default parameters. What do you see?
 
-# # from astropy.io import fits
-# # import matplotlib.pyplot as plt
-
-# # plt.imshow(fits.getdata('Bband.fits'))
-# # plt.show()
-
-# # the default settings to a horrendous job of displaying the image
-
 # from astropy.io import fits
-# import numpy as np
 # import matplotlib.pyplot as plt
 
-# data = fits.getdata("Bband.fits")
-
-# # https://numpy.org/doc/stable/reference/generated/numpy.percentile.html using percentile to clip outliers since I don't know the actual best min/max range
-# plt.imshow(data, origin="lower", interpolation="nearest", cmap="magma", vmin=np.percentile(data, 0.5), vmax=np.percentile(data, 99.5)) # using origin="lower" so 0,0 is bottom left instead of top right; interpolation="nearest" so the pixels don't have a weird smear effect
-# plt.colorbar(label="counts")
-# plt.title("M16 (B filter with 0.5-99.5% stretch)")
+# plt.imshow(fits.getdata('Bband.fits'))
 # plt.show()
 
-# print("\nProblem 3: Displaying Bband.fits\nI see what appears to be a stellar nebula with numerous stars and clouds. I first opened the image without using any specific plt.show() parameters " \
-#       "but I could only see a few faint stars. I played with the min/max percentiles a little bit and I think 0.5-99.5 is a decent render. From the FITS data, " \
-#       "I know that this is an image of the M16 Eagle Nebula.")
+# # the default settings do a horrendous job of displaying the image
+
+# # from astropy.io import fits
+# # import numpy as np
+# # import matplotlib.pyplot as plt
+
+# # data = fits.getdata("Bband.fits")
+
+# # # https://numpy.org/doc/stable/reference/generated/numpy.percentile.html using percentile to clip outliers since I don't know the actual best min/max range
+# # plt.imshow(data, origin="lower", interpolation="nearest", cmap="magma", vmin=np.percentile(data, 0.5), vmax=np.percentile(data, 99.5)) # using origin="lower" so 0,0 is bottom left instead of top right; interpolation="nearest" so the pixels don't have a weird smear effect
+# # plt.colorbar(label="counts")
+# # plt.title("M16 (B filter with 0.5-99.5% stretch)")
+# # plt.show()
+
+# # print("\nProblem 3: Displaying Bband.fits\nI see what appears to be a stellar nebula with numerous stars and clouds. I first opened the image without using any specific plt.show() parameters " \
+# #       "but I could only see a few faint stars. I played with the min/max percentiles a little bit and I think 0.5-99.5 is a decent render. From the FITS data, " \
+# #       "I know that this is an image of the M16 Eagle Nebula.")
 
 # '''
 # 4. Statistics on the image array
@@ -815,7 +859,7 @@
 
 # image = fits.getdata("Bband.fits")
 
-# ''' FIRST TRY SUPER MEGA WASTE OF TIME. FOUND ASINHSTRETCH FROM ASTROPY AND ITS WAY BETTER.
+# ''' FIRST TRY SUPER HUGE ULTRA MEGA WASTE OF TIME. FOUND ASINHSTRETCH FROM ASTROPY AND ITS WAY BETTER.
 # min_image = np.min(image) # from problem example
 # zero_based_image = image - min_image
 # sqrt_stretch = zero_based_image**0.5 # from problem example
@@ -871,73 +915,121 @@
 # plt.tight_layout()
 # plt.show()
 
+# '''
+# 8. The Final FITS
+# '''
+# # Load the B band and Halpha images, as before. Multoply the Halpha image by a randomly chosen float, say α, 
+# # between 2.1 and 27.9. Divide the B band image by this scaled Halpha image, to create a new image,
+# # Let’s call it BovH.
+
+# # PART 1
+# from astropy.io import fits
+# import numpy as np
+
+# b_image  = fits.getdata("Bband.fits")
+# ha_image = fits.getdata("Halpha.fits")
+
+# rng = np.random.default_rng()   
+# alpha = float(rng.uniform(2.1, 27.9)) #https://numpy.org/doc/stable/reference/random/generated/numpy.random.uniform.html clips random range
+
+# # https://numpy.org/doc/stable/reference/generated/numpy.ndarray.astype.html
+# ha_scaled = alpha * ha_image.astype(float) # using astype to ensure float values
+# BovH = np.divide(b_image.astype(float), ha_scaled, out=np.zeros_like(b_image, dtype=float), where=ha_scaled != 0) # same method as problem 7
+
+# print(f"alpha = {alpha:.4f}")
+
+# # PART 2
+# # Create a new image that is the square root of BovH and multiply it by a randomly chosen number, say β, between 1.057 and 1.553. 
+# # Let’s call this new image BovHerr. We are going to treat this as the uncertainty array for BovH, though of course it is 
+# # not the uncertainty array in any realistic sense.
+
+# BovH_positive_only = np.clip(BovH, 0, None)
+
+# beta = float(rng.uniform(1.057, 1.553))
+
+# BovHerr = beta * np.sqrt(BovH_positive_only) # per the problem
+
+# print(f"beta = {beta:.4f}")
+
+# # PART 3
+# # Create a mask array for BovH. Create a numpy array of the same dimensions as BovH of all zeros. 
+# # Then. set 7 randomly chosen elements in this array equal to 1. Call this array BovHmask.
+
+# import numpy as np
+# # https://numpy.org/doc/stable/reference/maskedarray.generic.html
+
+# BovHmask = np.zeros_like(BovH, dtype=np.uint8) # https://numpy.org/doc/stable/user/basics.types.html unassigned integer datatype instead of boolean true/false for mask
+# random_pixel = rng.choice(BovHmask.size, size=7, replace=False)
+# BovHmask.flat[random_pixel] = 1
+
+# # PART 4
+# # Create a new, single FITS file that contains BovH, BovHerr, and BovH-
+# # mask as SEPARATE images and a header which contains the values of
+# # α and β (with appropriately chosen keywords). Add your name to the
+# # header in a final keyword.
+
+# from astropy.io import fits
+
+# # https://stackoverflow.com/questions/59270533/writing-a-new-fits-file-from-old-data-with-astropy
+# primary_hdr = fits.Header()
+# primary_hdr['ALPHA'] = (float(alpha), 'Scaling factor on Halpha')
+# primary_hdr['BETA'] = (float(beta),  'Multiplier for sqrt(BovH) to form BovHerr')
+# primary_hdr['AUTHOR'] = ('Robin Ellis Brown')
+
+# # https://docs.astropy.org/en/stable/io/fits/index.html
+# primary_hdu = fits.PrimaryHDU(data=BovH, header=primary_hdr)
+# bovherr_hdu = fits.ImageHDU(data=BovHerr, name='BOVHERR')
+# mask_hdu = fits.ImageHDU(data=BovHmask, name='BOVHMASK')
+
+# hdul = fits.HDUList([primary_hdu, bovherr_hdu, mask_hdu])
+# hdul.writeto('BovH_products.fits', overwrite=True)
+
+# print("BovH_products.fits successfully saved.")
+
+# # PART 5
+# # Give your newly created FITS file to another member of the class, and obtain 
+# # a FITS file from another member of the class (this can be the same person if you wish). 
+# # Import the FITS file you were given, and determine the values of α and β, and 
+# # the locations of the elements in the mask array that are equal to 1.
+
+# from astropy.io import fits
+# import numpy as np
+
+# hdul = fits.open("BovH_file_test.fits")
+# # https://docs.astropy.org/en/stable/io/fits/api/headers.html
+# # https://docs.astropy.org/en/latest/io/fits/api/hdulists.htm
+# alpha = float(hdul[0].header["ALPHA"])
+# beta = float(hdul[0].header["BETA"])
+# # # https://numpy.org/doc/stable/reference/generated/numpy.asarray.html same data type as my own FITS file
+# BovHmask_in = np.asarray(hdul["BOVHMASK"].data, dtype=np.uint8) # converting to array ez
+# # # tried np.where first, epic fail # https://numpy.org/doc/stable/reference/generated/numpy.argwhere.html
+# # 12 year old thread still cooks https://stackoverflow.com/questions/15976697/difference-between-nonzeroa-wherea-and-argwherea-when-to-use-which
+# ones_row_column = np.argwhere(BovHmask_in == 1)
+
+# print(f"alpha = {alpha:.4f}")
+# print(f"beta  = {beta:.4f}")
+# print("mask = 1 (row, col):\n", ones_row_column)
+
+# Output:
+# alpha = 10.7829
+# beta  = 1.3258
+# mask = 1 (row, col):
+#  [[  30  328]
+#  [  41 1746]
+#  [ 884  548]
+#  [ 888   50]
+#  [1168  909]
+#  [1273 1456]
+#  [1480  256]]
+
 '''
-8. The Final FITS
+7. Capstone Questions
 '''
-# Load the B band and Halpha images, as before. Multoply the Halpha image by a randomly chosen float, say α, 
-# between 2.1 and 27.9. Divide the B band image by this scaled Halpha image, to create a new image,
-# Let’s call it BovH.
+# The brightness of the disk of the Sun looks the sane from Earth as it does from
+# Venus. But for faraway stars (that is, stars for which you cannot see the disk,
+# they are unresolved points), they look fainter the further away they are. Why
+# these two contrasting behaviours? What is going on?
 
-# PART 1
-from astropy.io import fits
-import numpy as np
+print("")
 
-b_image  = fits.getdata("Bband.fits")
-ha_image = fits.getdata("Halpha.fits")
 
-rng = np.random.default_rng()   
-alpha = float(rng.uniform(2.1, 27.9)) #https://numpy.org/doc/stable/reference/random/generated/numpy.random.uniform.html clips random range
-
-# https://numpy.org/doc/stable/reference/generated/numpy.ndarray.astype.html
-ha_scaled = alpha * ha_image.astype(float) # using astype to ensure float values
-BovH = np.divide(b_image.astype(float), ha_scaled, out=np.zeros_like(b_image, dtype=float), where=ha_scaled != 0) # same method as problem 7
-
-print(f"alpha = {alpha:.4f}")
-
-# PART 2
-# Create a new image that is the square root of BovH and multiply it by a randomly chosen number, say β, between 1.057 and 1.553. 
-# Let’s call this new image BovHerr. We are going to treat this as the uncertainty array for BovH, though of course it is 
-# not the uncertainty array in any realistic sense.
-
-BovH_positive_only = np.clip(BovH, 0, None)
-
-beta = float(rng.uniform(1.057, 1.553))
-
-BovHerr = beta * np.sqrt(BovH_positive_only) # per the problem
-
-print(f"beta = {beta:.4f}")
-
-# PART 3
-# Create a mask array for BovH. Create a numpy array of the same dimensions as BovH of all zeros. 
-# Then. set 7 randomly chosen elements in this array equal to 1. Call this array BovHmask.
-
-import numpy as np
-# https://numpy.org/doc/stable/reference/maskedarray.generic.html
-
-BovHmask = np.zeros_like(BovH, dtype=np.uint8) # https://numpy.org/doc/stable/user/basics.types.html unassigned integer datatype instead of boolean true/false for mask
-random_pixel = rng.choice(BovHmask.size, size=7, replace=False)
-BovHmask.flat[random_pixel] = 1
-
-# PART 4
-# Create a new, single FITS file that contains BovH, BovHerr, and BovH-
-# mask as SEPARATE images and a header which contains the values of
-# α and β (with appropriately chosen keywords). Add your name to the
-# header in a final keyword.
-
-from astropy.io import fits
-
-# https://stackoverflow.com/questions/59270533/writing-a-new-fits-file-from-old-data-with-astropy
-primary_hdr = fits.Header()
-primary_hdr['ALPHA'] = (float(alpha), 'Scaling factor on Halpha')
-primary_hdr['BETA'] = (float(beta),  'Multiplier for sqrt(BovH) to form BovHerr')
-primary_hdr['AUTHOR'] = ('Robin Ellis Brown')
-
-# already linked but helpful https://docs.astropy.org/en/stable/io/fits/index.html
-primary_hdu = fits.PrimaryHDU(data=BovH, header=primary_hdr)
-bovherr_hdu = fits.ImageHDU(data=BovHerr, name='BOVHERR')
-mask_hdu = fits.ImageHDU(data=BovHmask, name='BOVHMASK')
-
-hdul = fits.HDUList([primary_hdu, bovherr_hdu, mask_hdu])
-hdul.writeto('BovH_products.fits', overwrite=True)
-
-print("BovH_products.fits successfully saved.")
