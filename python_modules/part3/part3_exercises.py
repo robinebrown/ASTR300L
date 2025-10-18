@@ -1,3 +1,4 @@
+# 14.1 Imaging: A little warmup
 '''
 1. Create a two-dimensional, 10 × 10 element array, in which each element is equal
 to zero. Then, manually set the appropriate elements in the array to equal
@@ -236,126 +237,142 @@ plt.show() # looks good
 #   q = q*q + c
 
 # 14.2 An Everyday Image
-# '''
-# 1. Default display:
-# '''
-# from scipy import datasets
-# import numpy as np
-# import matplotlib.pyplot as plt
 
-# print("\n14.2: An Everyday Image")
+from scipy import datasets
+face = datasets.face(gray=True)
 
-# face = datasets.face(gray=True)
+'''
+1. Default display
+'''
+# 1. Display the image to the screen using all defalult parameters.
 
-# print("Problem 1: Default display of face")
-# plt.figure()
-# plt.imshow(face, cmap="gray")
-# plt.title("1. Default display")
-# plt.axis("off")
+import matplotlib.pyplot as plt
 
-# '''
-# 2. Min/max and two rescaled displays
-# '''
-# vmin = float(face.min())
-# vmax = float(face.max())
-# print(f"\nProblem 2: Min/max and two rescaled displays\nMinimum pixel = {vmin}\nMaximum pixel = {vmax}")
+plt.imshow(face)
+plt.show()
 
-# # (min, max/2.0)
-# plt.figure()
-# plt.imshow(face, cmap="gray", vmin=vmin, vmax=vmax/2.0)
-# plt.title("2. Scaled to (min, max/2)")
-# plt.axis("off")
+'''
+2. Minimum/maximum display
+'''
+# 2. Find the minimum and maximum pixel values in the image. Then, make two new images. Ine with the colormap scaled to (min, max/2.0). The other scaled to (min*2.0, max). 
+# https://numpy.org/doc/stable/reference/generated/numpy.min.html
 
-# # (min*2.0, max)
-# plt.figure()
-# plt.imshow(face, cmap="gray", vmin=vmin*2.0, vmax=vmax)
-# plt.title("2. Scaled to (min*2, max)")
-# plt.axis("off")
+import numpy as np
+import matplotlib.pyplot as plt
 
-# plt.show()
+#find min and max using numpy min/max function
+min_val = np.min(face)
+max_val = np.max(face)
 
-# '''
-# 3. Print any 30x30 element section to the screen
-# '''
-# r0, c0 = 200, 300
-# block = face[r0:r0+30, c0:c0+30]
-# np.set_printoptions(linewidth=200, suppress=True) # https://numpy.org/doc/stable/reference/generated/numpy.set_printoptions.html
-# print(f"\nProblem 3: Print any 30x30 element section to the screen\n30x30 block starting at (row {r0}, col {c0}):")
-# print(block)
+print("Min pixel value:", min_val)
+print("Max pixel value:", max_val)
 
-# '''
-# 4) Remove 100px border and compare
-# '''
-# cropped = face[100:-100, 100:-100]
+# display image scaled between (min, max/2)
+plt.imshow(face, vmin=min_val, vmax=max_val/2.0)
+plt.title("Colormap scaled to (min, max/2.0)")
+plt.colorbar()
+plt.show()
 
-# plt.figure(figsize=(10, 4))
-# plt.subplot(1, 2, 1)
-# plt.imshow(face, cmap="gray")
-# plt.title("4. Original")
-# plt.axis("off")
+# display image scaled between (min*2, max)
+plt.imshow(face, vmin=min_val*2.0, vmax=max_val)
+plt.title("Colormap scaled to (min*2.0, max)")
+plt.colorbar()
+plt.show()
 
-# plt.subplot(1, 2, 2)
-# plt.imshow(cropped, cmap="gray")
-# plt.title("4. Cropped (100 pixel border removed)")
-# plt.axis("off")
+'''
+3. 30x30 element section
+'''
+# 3. Print the numerical values of any 30 ×30 element section of the image to the screen.
 
-# plt.tight_layout()
-# plt.show()
+section = face[0:30, 0:30]
+print(section)
 
-# '''
-# 5 Row-wise sort (in ascending order) and compare to original
-# '''
-# sorted_rows = face.copy()
-# for i in range(sorted_rows.shape[0]):
-#     sorted_rows[i, :] = np.sort(sorted_rows[i, :])
+'''
+4. 100 pixel border removed
+'''
+# 4. Make new image consisting of original image with 100 pixel border round the edges removed. Plot new image beside original image to check result.
 
-# plt.figure(figsize=(10, 4))
-# plt.subplot(1, 2, 1)
-# plt.imshow(face, cmap="gray")
-# plt.title("5. Original")
-# plt.axis("off")
+import matplotlib.pyplot as plt
 
-# plt.subplot(1, 2, 2)
-# plt.imshow(sorted_rows, cmap="gray")
-# plt.title("5. Row-wise sorted")
-# plt.axis("off")
+# remove 100-pixel border from all sides (top, bottom , l, r)
+cropped = face[100:-100, 100:-100]
 
-# plt.tight_layout()
-# plt.show()
+#plot original and cropped images next to each other
+plt.subplot(1, 2, 1)
+plt.imshow(face)
+plt.title("Original")
+plt.axis("off")
 
-# '''
-# 6. Index sorted rows
-# '''
-# # https://numpy.org/doc/stable/reference/generated/numpy.empty_like.html
-# original = face  # use the original image
-# H, W = original.shape
-# weird = np.empty_like(original)
+plt.subplot(1, 2, 2)
+plt.imshow(cropped)
+plt.title("Cropped")
+plt.axis("off")
 
-# # Sort ascending
-# first_order = np.argsort(original[0])
-# weird[0] = original[0][first_order]
+plt.show()
 
-# # For each next row i, apply the permutation that would sort row i-1 (of the ORIGINAL)
-# for i in range(1, H):
-#     order = np.argsort(original[i-1])
-#     weird[i] = original[i][order]
+'''
+5. Flow control row sort
+'''
+# 5. Using flow control, step down through each row of image and sort each in ascenfing order of the element values. Display resulting image beside the original.
 
-# # Show original vs. index-sorted
-# plt.figure(figsize=(10, 4))
-# plt.subplot(1, 2, 1)
-# plt.imshow(original, cmap="gray")
-# plt.title("Original")
-# plt.axis("off")
+import numpy as np
+import matplotlib.pyplot as plt
 
-# plt.subplot(1, 2, 2)
-# plt.imshow(weird, cmap="gray")
-# plt.title("Sorted by previous row's order")
-# plt.axis("off")
+# create copy of image so we dont modify the original
+sorted_face = face.copy()
 
-# plt.tight_layout()
-# plt.show()
+# loop through each row and sort pixel vals in ascending order
+for i in range(sorted_face.shape[0]):
+    sorted_face[i] = np.sort(sorted_face[i])
 
-# 14.3. Imaging: Increasingly real stars
+# display oroginal and row-sorted images next to eachother
+plt.subplot(1,2,1)
+plt.imshow(face)
+plt.title("Original")
+plt.axis("off")
+
+plt.subplot(1,2,2)
+plt.imshow(sorted_face)
+plt.title("Row-sorted")
+plt.axis("off")
+
+plt.show()
+
+'''
+6. Unsummarizable intructions
+'''
+# 6. Last problem, lots of instrucitons
+# https://stackoverflow.com/questions/17901218/numpy-argsort-what-is-it-doing
+# https://numpy.org/doc/stable/reference/generated/numpy.argsort.html
+# https://numpy.org/doc/stable/user/basics.indexing.html
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# make a copy of original iamge
+odd_sort_face = face.copy()
+
+order = np.argsort(odd_sort_face[0])  # get index order that would sort the first row
+odd_sort_face[0] = odd_sort_face[0][order] #apply that order to the first row itself
+
+# for each row after, sort it using the previous's row order
+for i in range(1, odd_sort_face.shape[0]):
+    odd_sort_face[i] = odd_sort_face[i][order]
+    order = np.argsort(odd_sort_face[i]) #update the order to the one that sorts the current row
+
+plt.subplot(1,2,1)
+plt.imshow(face)
+plt.title("Original")
+plt.axis("off")
+
+plt.subplot(1,2,2)
+plt.imshow(odd_sort_face)
+plt.title("Odd-sorted")
+plt.axis("off")
+
+plt.show()
+
+# 14.3 Imaging: Increasingly real stars
 '''
 1. Attempt 1 - Utter Nothingness:
 '''
@@ -915,311 +932,628 @@ print("Test3.txt columns:\n", columns_test3)
 #   '-999' '-999' '176' '-999' '-999' '-999' '672' '-999' '200' '654'
 #   '-999' '-999' '-999' '57' '-999' '350' '200' '-999' '117' '267' '93']]
 
-# # 14.5 FITS file Exercises
-# '''
-# 1 & 2. Examining Bband.fits
-# '''
-# # Load the Bband.fits file from Data/images into python. examine the hdulist carefully. 
-# # What sort of data does this file contain? How many separate arrays and headers?
+# 14.5 FITS File Exercises
+'''
+1. Loading BBand.fits
+'''
+# 1. Load the Bband.fits file from Data/images into python. What sort of data does this file contain? How many separate arrays and headers?
+# https://docs.astropy.org/en/stable/io/fits/
 
-# from astropy.io import fits
+from astropy.io import fits
 
-# # https://docs.astropy.org/en/stable/io/fits/index.html
-# # hdul = fits.open("Bband.fits")
-# # data = fits.getdata("Bband.fits")   # primary image array
-# # hdr  = fits.getheader("Bband.fits") # primary header
-# # print(data)
-# # print(hdul)
-# # print(hdr)
+#load fits file & access data array and its header
+hdulist = fits.open("Data/Images/ImagesForAnalysis/Bband.fits")
+data = hdulist[0].data
+header = hdulist[0].header
 
-# # https://docs.astropy.org/en/stable/io/fits/api/files.html
-# # https://docs.astropy.org/en/latest/io/fits/api/headers.html
-# header = fits.open("Bband.fits")[0].header
-# header.remove("HISTORY", remove_all=True) # gets rid of the long file history
-# header.remove("COMMENT", remove_all=True) # gets rid of associated comments (don't care)
+print("This file has", len(hdulist), "HDU.")
+print("Data shape:", data.shape)
+print("Data type:", data.dtype)
 
-# # https://docs.astropy.org/en/stable/_modules/astropy/io/fits/header.html
-# print(header.tostring(sep="\n", padding=True))  # 'sep' for clean line breaks + aligned columns
-# print("\nProblems 1 & 2: Examining Bband.fits (see above for FITS info)")
-# print("\nThe Bband.fits file contains a single HDU and a single data array. The 2009x2009 array is a 2-D image of M16 " \
-#       "(OBJECT='M16') through the B filter (FILTER='B') stored as 32-bit floats (BITPIX = -32). The header info (from " \
-#       "hdulist.info) indicates that this is a PrimaryHDU with 914 cards. Image was captured on 2015-07-27T09:33:04.368 (DATE-OBS) " \
-#       "with a 120 second exposure (EXPTIME) on the LCOGT 2-m telescope at Haleakala Observatory using instrument fs02 " \
-#       "(TELESCOP='2m0-01', INSTRUME='fs02'). There are other metrics, such as the pixel scale being 0.30104 arcsec per pixel " \
-#       "(PIXSCALE/SECPIX=0.30104) and detector characteristics like gain (GAIN) and read noise (RDNOISE). It also contains " \
-#       "a ridiculously long historical documentation with associated comments.")
+# THere is 1 HDU, which means there is ONE image array and ONE header describing that array.
 
-# '''
-# 3. Displaying Bband.fits
-# '''
-# # You should have discovered that the file contains an image. 
-# # Display the image, using default parameters. What do you see?
+# Output:
+# This file has 1 HDU.
+# Data shape: (2009, 2009)
+# Data type: >f4
 
-# from astropy.io import fits
-# import matplotlib.pyplot as plt
+'''
+2. Print header information
+'''
+# 2. Print the header information to the screen (hint: hdulist.info). What does it tell you? Summarize the salient information from the header.
 
-# plt.imshow(fits.getdata('Bband.fits'))
-# plt.show()
+from astropy.io import fits
 
-# # the default settings do a horrendous job of displaying the image, better below
+hdulist = fits.open("Data/Images/ImagesForAnalysis/Bband.fits")
+hdulist.info()
 
-# # from astropy.io import fits
-# # import numpy as np
-# # import matplotlib.pyplot as plt
+# view entire header content 
+#print(hdulist[0].header)
 
-# # data = fits.getdata("Bband.fits")
+# This FITS file contains one HDU, which is the primary image. The image data are stored as 32-bit
+# floating point numbers and have dimesions of 2009x2009 pixels. The header has 914 entries 
+# describing details abt the observation and instrument.
 
-# # # https://numpy.org/doc/stable/reference/generated/numpy.percentile.html using percentile to clip outliers since I don't know the actual best min/max range
-# # plt.imshow(data, origin="lower", interpolation="nearest", cmap="magma", vmin=np.percentile(data, 0.5), vmax=np.percentile(data, 99.5)) # using origin="lower" so 0,0 is bottom left instead of top right
-# # plt.colorbar(label="counts")
-# # plt.title("M16 (B filter with 0.5-99.5% stretch)")
-# # plt.show()
+# Output:
+# Filename: Data/Images/ImagesForAnalysis/Bband.fits
+# No.    Name      Ver    Type      Cards   Dimensions   Format
+#   0  PRIMARY       1 PrimaryHDU     914   (2009, 2009)   float32  
 
-# # print("\nProblem 3: Displaying Bband.fits\nI see what appears to be a stellar nebula with numerous stars and clouds. I first opened the image without using any specific plt.show() parameters " \
-# #       "but I could only see a few faint stars. I played with the min/max percentiles a little bit and I think 0.5-99.5 is a decent render. From the FITS data, " \
-# #       "I know that this is an image of the M16 Eagle Nebula.")
+'''
+3. Displaying BBand.fits
+'''
+# 3. You should have discovered that the file contains an image. Display the image, using default parameters. What do you see?
+# https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html
 
-# '''
-# 4. Statistics on the image array
-# '''
-# # Let’s now do some statistics on the image array. Calculate the mean, median, and standard deviation 
-# # of the elements in the array. Just for fun, calculate the vase 10 logarithm of the elements in the array. 
-# # There are simple numpy commands to do all of these tasks. Finally, make a histogram of the (original)
-# # array values (matplotlib has a quick way to do this, as does seaborn if you prefer) and output this histogram as a pdf.
+import matplotlib.pyplot as plt
 
-# from astropy.io import fits
-# import numpy as np
-# import matplotlib.pyplot as plt
+plt.imshow(data)
+plt.show()
 
-# data = fits.getdata("Bband.fits")
+# I see several bright point sources (stars lol) that are scattered across a dark background. Some of the rly faint stars
+# are barely visible bc the default color scaling is dominated by the brightest pixels.
 
-# mean = np.mean(data)
-# median = np.median(data)
-# std = np.std(data)
-# log10_data = np.log10(data)
+'''
+4. Statistics on the image array
+'''
+# 4. Calculate the mean, median, and standard deviation of elements in array. Calculate the vase 10 logarithm of the elements in the array. Make a histogram of the (original) array values and output this histogram as a pdf.
 
-# print(f"\nProblem 4: Histogram of Bband.fits\nMean={mean:.3f}\nMedian={median:.3f}\nStandard deviation={std:.3f}\nBase 10 logarithms=\n{log10_data}") # using 3 decimal places because why not
+import numpy as np
+import matplotlib.pyplot as plt
 
-# # https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.hist.html
-# plt.figure()
-# # found .reshape method for 2-D array interpretation: https://stackoverflow.com/questions/65486157/what-does-matplotlib-hist-do-with-a-2-d-numpy-array-input
-# plt.hist(data.reshape(-1), bins='auto', range=(270, 430))
-# plt.xlim(270, 440) # mean ~ 352, left tail dies around 300, right tail has scattered points further
-# plt.xlabel("Counts")
-# plt.ylabel("Pixels")
-# plt.title("Bband.fits Pixel Histogram")
-# plt.tight_layout()
-# plt.savefig("bband_histogram.pdf")
-# plt.show()
+# use numpy functions to calcualte image stats
+print("Mean:", np.mean(data))
+print("Median:", np.median(data))
+print("Std:", np.std(data))
 
-# '''
-# 5. Histogram analysis
-# '''
-# # Look carefully at this histogram. Bearing in mind that astronomical images tend to be faint background 
-# # noide plus a few bright sources, use the histogram to estimate the min and max values to translate 
-# # the elements in the array to a colormap, and redisplay the image with these values. What do you see? 
-# # Hint: pick a colormap with plenty of variety.
+# calculate base10 og of the data (offset by +1 to avoid log(0))
+log_data = np.log10(data + 1)
+print("Log10 of data:", log_data.flatten()[:5])
 
-# from astropy.io import fits
-# import matplotlib.pyplot as plt
+# make a histogram of original image values
+plt.hist(data.flatten(), bins=100, color='purple', edgecolor='black')
+plt.yscale('log')
+plt.xlabel("Pixel value")
+plt.ylabel("Count (log scale)")
+plt.title("Histo of Bband Image Pixel Values")
 
-# data = fits.getdata("Bband.fits")
+# save histogram as PDF
+plt.savefig("bband_hisogram.pdf")
+plt.show
 
-# # chosen by eye from the histogram
-# vmin, vmax = 300, 430
+# Output:
+# Mean: 368.32596
+# Median: 352.17007
+# Std: 669.2939
+# Log10 of data: [2.5350478 2.5102117 2.4934535 2.4984717 2.5262303]
 
-# print("\nProblem 5: Histogram analysis\nI see many bright stars and gas clouds scattered all throughout the image. There are several very bright stars dominating certain areas, but the noise makes it difficult to differentiate the fainter objects.")
+'''
+5. Estimating min/max values
+'''
+# 5. Use the histogram to estimate the min and max values to translate the elements in the array to a colormap, and redisplay the image with these values. What do you see?
+# https://numpy.org/devdocs/reference/generated/numpy.percentile.html
+# https://docs.astropy.org/en/stable/visualization/normalization.html
 
-# plt.imshow(data, origin="lower", cmap="viridis", vmin=vmin, vmax=vmax, interpolation="nearest") # could declare vmin/max internally but for the sake of the problem I declared them like a boss. viridis is nice
-# plt.colorbar(label="counts")
-# plt.title(f"M16 (B filter) — stretch [{vmin}, {vmax}]")
-# plt.tight_layout()
-# plt.show()
+import numpy as np
+import matplotlib.pyplot as plt
 
-# '''
-# 6. Scale experimentation
-# '''
-# # Experiment with different python commands to achieve a pretty scaling of the image. What astronomical object 
-# # is this an image of? Things you might want to experiment with include:
-# # • Scale the image to start from zero. You can get the minimum pixel value
-# # of the image via minimage = np.min(image)
-# # • Raise the image to a power, e.g. DispData = image**(0.5)
-# # • Take the logarithm of the pixel values
-# # The best way to do this is to play with ideas - you are in essence looking for the best match of the
-# # relevant parts of the image histogram to the most ”informative” part of the colormap
+vmin = np.percentile(data,5) #near background peak (dark noise)
+vmax = np.percentile(data, 99.5) #ignore the brightest outlieers
 
-# from astropy.io import fits
-# import numpy as np
-# import matplotlib.pyplot as plt
-# # https://docs.astropy.org/en/stable/api/astropy.visualization.AsinhStretch.html way better than the other stuff I was trying
-# from astropy.visualization import ImageNormalize, PercentileInterval, AsinhStretch
+print("Histogram-based vmin/vmax:", vmin, vmax)
 
-# image = fits.getdata("Bband.fits")
+#display w/ high contrast perceptual colormap
+plt.imshow(data, vmin=vmin, vmax=vmax, cmap='magma')
+plt.colorbar(label="pixel value")
+plt.title("B-band image with histogram-chosen scaling")
+plt.show()
 
-# ''' FIRST TRY - SUPER HUGE ULTRA MEGA WASTE OF TIME. FOUND ASINHSTRETCH FROM ASTROPY AND ITS WAY BETTER. '''
-# # min_image = np.min(image) # from problem example
-# # zero_based_image = image - min_image
-# # sqrt_stretch = zero_based_image**0.5 # from problem example
-# # # https://numpy.org/doc/stable/reference/generated/numpy.log1p.html
-# # log_stretch  = np.log1p(zero_based_image) # tried np.log(zero_based_image) first but log(0) problems; using log1p instead of log(1+x) # https://www.youtube.com/watch?v=y5IzIcvCM18&t=42s
-# # sqrt_stretch = zero_based_image ** 0.5
-# # plt.imshow(disp, origin="lower", cmap="magma", interpolation="nearest", vmin=0, vmax=np.percentile(log_stretch, 99.5))
-# # plt.colorbar(label="scaled intensity")
-# # plt.title("M16 (B band) — zero-shift + sqrt/log stretch")
-# # plt.tight_layout()
-# # plt.show()
-# ''' '''
+# I see a star-field.
 
-# norm = ImageNormalize(image, interval=PercentileInterval(99.5), stretch=AsinhStretch(a=0.05))
+# Output:
+# Histogram-based vmin/vmax: 330.5201416015625 560.6754760742189
 
-# print("\nProblem 6. Scale experimentation\nAfter much experimentation and furious googling, I ended up finding Astropy's own 'asinhstretch' method that works great.")
-# plt.imshow(image, origin="lower", cmap="magma", norm=norm, interpolation="nearest") # magma looks epic
-# plt.colorbar(label="stretched counts")
-# plt.title("M16 (B band) — asinh stretch")
-# plt.tight_layout()
-# plt.show()
+'''
+6. Scaling/stretching
+'''
+# 6. Experiment with different python commands to achieve a pretty scaling of the image. What astronomical object is this an image of?
+#https://stackoverflow.com/questions/49538185/purpose-of-numpy-log1p
+# https://numpy.org/doc/2.3/reference/generated/numpy.log1p.html
 
-# '''
-# 7. H alpha image inclusion
-# '''
-# # From the same directory, load the Halpha image into python as a separate image. Display this image with 
-# # an appropriate colormap scaling. Then, divide the B band image by the Halpha image to make a new image. 
-# # Display this new image with an appropriate scaling.
+import numpy as np
+import matplotlib.pyplot as plt
 
-# from astropy.io import fits
-# import numpy as np
-# import matplotlib.pyplot as plt
-# from astropy.visualization import ImageNormalize, PercentileInterval, AsinhStretch
+#shift so the minimum pixel becomes 0 (avoids negatives before non linear stretching)
+img0 = data - np.min(data)
 
-# b_image  = fits.getdata("Bband.fits")
-# ha_image = fits.getdata("Halpha.fits")
+# log stretch (log1p to avoid log(0))
+disp = np.log1p(img0)
 
-# ha_image_normalize = ImageNormalize(ha_image, interval=PercentileInterval(99.5), stretch=AsinhStretch(a=0.05)) # same method as before
+vmin = np.percentile(disp, 5)
+vmax = np.percentile(disp, 99.5)
 
-# print("\nProblem 7: H alpha image inclusion")
-# plt.imshow(ha_image, origin="lower", cmap="magma", norm=ha_image_normalize, interpolation="nearest")
-# plt.colorbar(label="H alpha counts (stretched)")
-# plt.title("H alpha image (asinh + 99.5%)")
-# plt.tight_layout()
-# plt.show()
-# # https://numpy.org/doc/2.0/reference/generated/numpy.divide.html 
-# ratio_image = np.divide(b_image, ha_image, out=np.zeros_like(b_image, dtype=float), where=ha_image!=0) # need 'where=ha_image!=0' because can't divide by 0 obviously (oops)
+plt.imshow(disp, vmin=vmin, vmax=vmax, cmap='magma')
+plt.colorbar(label='stretched pixel value')
+plt.title('B-band image, log stretch, percentile scaling')
+plt.show()
 
-# ratio_image_normalize = ImageNormalize(ratio_image, interval=PercentileInterval(99), stretch=AsinhStretch(a=0.05))
-# plt.imshow(ratio_image, origin="lower", cmap="viridis", norm=ratio_image_normalize, interpolation="nearest")
-# plt.colorbar(label="B / H alpha (stretched)")
-# plt.title("B / H alpha ratio (asinh + 99%)")
-# plt.tight_layout()
-# plt.show()
+# This is a star field (jk, now I know its the pillars of creation)
 
-# '''
-# 8. The Final FITS
-# '''
-# # Load the B band and Halpha images, as before. Multoply the Halpha image by a randomly chosen float, say α, 
-# # between 2.1 and 27.9. Divide the B band image by this scaled Halpha image, to create a new image,
-# # Let’s call it BovH.
+'''
+7. Load/display Halpha
+'''
+# 7. From the same directory, load the Halpha image into python as a separate image. Display this image with an appropriate colormap scaling. Then, divide the B band image by the Halpha image to make a new image. Display this new image with an appropriate scaling.
 
-# # PART 1
-# from astropy.io import fits
-# import numpy as np
+from astropy.io import fits
+import numpy as np
+import matplotlib.pyplot as plt
 
-# b_image  = fits.getdata("Bband.fits")
-# ha_image = fits.getdata("Halpha.fits")
+#load both images
+bband = fits.getdata("Data/Images/ImagesForAnalysis/Bband.fits")
+halpha = fits.getdata("Data/Images/ImagesForAnalysis/Halpha.fits")
 
-# rng = np.random.default_rng()   
-# alpha = float(rng.uniform(2.1, 27.9)) #https://numpy.org/doc/stable/reference/random/generated/numpy.random.uniform.html clips random range
+#display halpha with the usual percentile scaling
+vmin_h = np.percentile(halpha, 5)
+vmax_h = np.percentile(halpha, 99.5)
 
-# # https://numpy.org/doc/stable/reference/generated/numpy.ndarray.astype.html
-# ha_scaled = alpha * ha_image.astype(float) # using astype to ensure float values
-# BovH = np.divide(b_image.astype(float), ha_scaled, out=np.zeros_like(b_image, dtype=float), where=ha_scaled != 0) # same method as problem 7
+plt.imshow(halpha, vmin=vmin_h, vmax=vmax_h, cmap='magma')
+plt.colorbar(label='Pixel value (Halpha)')
+plt.title('Halpha image w/ percentile scaling')
+plt.show()
 
-# print(f"alpha = {alpha:.4f}")
+###
 
-# # PART 2
-# # Create a new image that is the square root of BovH and multiply it by a randomly chosen number, say β, between 1.057 and 1.553. 
-# # Let’s call this new image BovHerr. We are going to treat this as the uncertainty array for BovH, though of course it is 
-# # not the uncertainty array in any realistic sense.
+#create ratio image (add 1e-6 to prevent division by 0)
+ratio = bband / (halpha + 1e-6)
 
-# BovH_positive_only = np.clip(BovH, 0, None)
+#percentile scaling for ratio image
+vmin_r = np.percentile(ratio, 5)
+vmax_r = np.percentile(ratio, 99.5)
 
-# beta = float(rng.uniform(1.057, 1.553))
+plt.imshow(ratio, vmin=vmin_r, vmax=vmax_r, cmap='magma')
+plt.colorbar(label='B / Hα ratio')
+plt.title('B-band divided by Hα image')
+plt.show()
 
-# BovHerr = beta * np.sqrt(BovH_positive_only) # per the problem
+'''
+8. The Final FITS
+'''
+# 8. For this final question you will need to work with at least one other person.
+# https://docs.astropy.org/en/stable/io/fits/usage/headers.html
+# https://docs.astropy.org/en/latest/io/fits/index.html
+# https://docs.python.org/3/library/random.html
+# https://numpy.org/doc/2.1/reference/random/generator.html
+# https://numpy.org/devdocs/reference/generated/numpy.zeros_like.html
 
-# print(f"beta = {beta:.4f}")
+import numpy as np
+from astropy.io import fits
 
-# # PART 3
-# # Create a mask array for BovH. Create a numpy array of the same dimensions as BovH of all zeros. 
-# # Then. set 7 randomly chosen elements in this array equal to 1. Call this array BovHmask.
+#load images as numpy arrays
+b_band = fits.getdata("Data/Images/ImagesForAnalysis/Bband.fits")
+h_alpha = fits.getdata("Data/Images/ImagesForAnalysis/Halpha.fits")
 
-# import numpy as np
-# # https://numpy.org/doc/stable/reference/maskedarray.generic.html
+#take image data to make it float so we can actually do math with it
+b_img = b_band.astype(float)
+h_img = h_alpha.astype(float)
 
-# BovHmask = np.zeros_like(BovH, dtype=np.uint8) # https://numpy.org/doc/stable/user/basics.types.html unassigned integer datatype instead of boolean true/false for mask
-# random_pixel = rng.choice(BovHmask.size, size=7, replace=False)
-# BovHmask.flat[random_pixel] = 1
+#pick random float in [2.7, 27.9] using random number generator
+rng = np.random.default_rng()
+alpha = rng.uniform(2.1, 27.9)
 
-# # PART 4
-# # Create a new, single FITS file that contains BovH, BovHerr, and BovH-
-# # mask as SEPARATE images and a header which contains the values of
-# # α and β (with appropriately chosen keywords). Add your name to the
-# # header in a final keyword.
+# scale halpha and make BovH (avoid dividing by 0)
+eps = 1e-8
+BovH = b_img / (alpha * h_img + eps)
 
-# from astropy.io import fits
+print("alpha =", alpha, " and BovH shape:", BovH.shape)
 
-# # https://stackoverflow.com/questions/59270533/writing-a-new-fits-file-from-old-data-with-astropy
-# primary_hdr = fits.Header()
-# primary_hdr['ALPHA'] = (float(alpha), 'Scaling factor on Halpha')
-# primary_hdr['BETA'] = (float(beta),  'Multiplier for sqrt(BovH) to form BovHerr')
-# primary_hdr['AUTHOR'] = ('Robin Ellis Brown')
+#####
 
-# # https://docs.astropy.org/en/stable/io/fits/index.html
-# primary_hdu = fits.PrimaryHDU(data=BovH, header=primary_hdr)
-# bovherr_hdu = fits.ImageHDU(data=BovHerr, name='BOVHERR')
-# mask_hdu = fits.ImageHDU(data=BovHmask, name='BOVHMASK')
+# pick random beta in [1.057, 1.553]
+beta = rng.uniform(1.057, 1.553)
 
-# hdul = fits.HDUList([primary_hdu, bovherr_hdu, mask_hdu])
-# hdul.writeto('BovH_products.fits', overwrite=True)
+#uncertainity image
+BovHerr = beta * np.sqrt(np.clip(BovH, 0, None))
 
-# print("BovH_products.fits successfully saved.")
+print("beta =", beta, " and BovHerr shape:", BovHerr.shape)
 
-# # PART 5
-# # Give your newly created FITS file to another member of the class, and obtain 
-# # a FITS file from another member of the class (this can be the same person if you wish). 
-# # Import the FITS file you were given, and determine the values of α and β, and 
-# # the locations of the elements in the mask array that are equal to 1.
+#####
 
-# from astropy.io import fits
-# import numpy as np
+# create array of 0s that has same shape as BovH, uses unsigned 8bit ints as data type
+BovHmask = np.zeros_like(BovH, dtype=np.uint8)
 
-# hdul = fits.open("BovH_file_test.fits")
-# # https://docs.astropy.org/en/stable/io/fits/api/headers.html
-# # https://docs.astropy.org/en/latest/io/fits/api/hdulists.htm
-# alpha = float(hdul[0].header["ALPHA"])
-# beta = float(hdul[0].header["BETA"])
-# # # https://numpy.org/doc/stable/reference/generated/numpy.asarray.html same data type as my own FITS file
-# BovHmask_in = np.asarray(hdul["BOVHMASK"].data, dtype=np.uint8) # converting to array
-# # # tried np.where first, epic fail # https://numpy.org/doc/stable/reference/generated/numpy.argwhere.html
-# # 12 year old thread still cooks https://stackoverflow.com/questions/15976697/difference-between-nonzeroa-wherea-and-argwherea-when-to-use-which
-# ones_row_column = np.argwhere(BovHmask_in == 1)
+h, w = BovHmask.shape                              # get num of rows & cols of mask
+flat_idx = rng.choice(h*w, size=7, replace=False)  #randomly pick 7 unique flat pixel indices
+rows, cols = np.unravel_index(flat_idx, (h, w))    # convert flat indices to (row,col) coords
+BovHmask[rows, cols] = 1                           # set those 7 random pixel locations to 1 in the mask
 
-# print(f"alpha = {alpha:.4f}")
-# print(f"beta  = {beta:.4f}")
-# print("mask = 1 (row, col):\n", ones_row_column)
+print("Mask ones at (row, col):", list(zip(rows, cols)))
 
-# # Output:
-# # alpha = 10.7829
-# # beta  = 1.3258
-# # mask = 1 (row, col):
-# #  [[  30  328]
-# #  [  41 1746]
-# #  [ 884  548]
-# #  [ 888   50]
-# #  [1168  909]
-# #  [1273 1456]
-# #  [1480  256]]
+#####
 
-# 14.7: Capstone Questions
+#store alpha, beta, author to header data
+primary_hdu = fits.PrimaryHDU()
+primary_hdu.header["ALPHA"] = (float(alpha), "Scale factor for Halpha")
+primary_hdu.header["BETA"] = (float(beta), "Scale factor for Bband")
+primary_hdu.header["AUTHOR"] = "Silvia Arjona Garcia"
+
+#create image HDUs for all bovh, bovherr, bovhmask
+hdu_bovh = fits.ImageHDU(BovH, name="BOVH")
+hdu_bovherr = fits.ImageHDU(BovHerr, name="BOVHERR")
+hdu_mask = fits.ImageHDU(BovHmask, name="BOVHMASK")
+
+hdul_out = fits.HDUList([primary_hdu, hdu_bovh, hdu_bovherr, hdu_mask]) # combine all HDUs into a single FITS structure
+hdul_out.writeto("BovH_package.fits", overwrite=True)
+
+print("Wrote BovH_package.fits with extensions: PRIMARY, BOVH, BOVHERR, BOVHMASK")
+
+# Output:
+# alpha = 6.984394895994777  and BovH shape: (2009, 2009)
+# beta = 1.4139290777847564  and BovHerr shape: (2009, 2009)
+# Mask ones at (row, col): [(1750, 818), (1885, 1092), (222, 847), (102, 1), (948, 1691), (592, 744), (1866, 454)]
+# Wrote BovH_package.fits with extensions: PRIMARY, BOVH, BOVHERR, BOVHMASK
+
+'''
+8. Part 2
+'''
+# 8. continued
+# https://docs.astropy.org/en/stable/io/fits/index.html
+# https://stackoverflow.com/questions/19482970/get-a-list-from-pandas-dataframe-column-headers
+
+from astropy.io import fits
+import numpy as np
+
+jyxzel_file = "FITSAstr300L-3.fits"
+hdul = fits.open(jyxzel_file)
+
+#read metadata
+hdr = hdul[0].header                 #access primary header of FITS file
+alpha_jyx = hdr.get("ALPHA", None)   # extract alpha and beta vals
+beta_jyx = hdr.get("BETA", None)
+
+print("From Jyxzel's file:")
+print("  ALPHA :", alpha_jyx)
+print("  BETA  :", beta_jyx)
+
+mask = hdul["BOVHMASK"].data.astype(int)          # read mask and convert to int
+rows, cols = np.where(mask == 1)                  # find row, col where mask = 1
+coords = list(zip(rows.tolist(), cols.tolist()))  # pair row & col indices into tuples
+print("  Mask 1-locations (row, col):", coords)   # print coords of pixels where mask = 1
+
+# Output:
+# From Jyxzel's file:
+#   ALPHA : 27
+#   BETA  : 1.155
+#   Mask 1-locations (row, col): [(197, 831), (537, 1295), (554, 453), (1001, 541), (1307, 246), (1598, 1305), (1900, 1142)]
+
+# 14.6 Science with Astronomical Images
+'''
+1. Loading the image
+'''
+# 1.  Load the image TheStar/coj1m011-kb05-20140607-0113-e90.fits into python.
+
+from astropy.io import fits
+
+#load the FITS file
+img_data = fits.open("Data/StellarPhotometry/coj1m011-kb05-20140607-0113-e90.fits")
+
+#print header info
+header_info = img_data[0].header
+print(header_info)
+
+# This FITS image is an LCOGT 1-m exposure of J1614-1906. It was observed on 2014-06-07 from 14:51:40.337 to 14:52:01.773 UTC.
+
+# Output:
+# very very long single line
+
+'''
+2. Copying data and header into variable
+'''
+# 2. Copy the data and header into their own variable 
+
+# I basically did half of this in question 1.
+
+header_info = img_data[0].header
+img_array = img_data[0].data
+
+'''
+3. Displaying and scaling the image
+'''
+# 3. Produce a display image of the data, adjusting the image scaling appropriately
+
+import matplotlib.pyplot as plt
+import  numpy as np
+
+img_array = img_data[0].data
+
+# percentile scaling
+vmin = np.percentile(img_array, 5)
+vmax = np.percentile(img_array, 99.5)
+
+plt.imshow(img_array, cmap='magma', origin='lower', vmax=vmax, vmin=vmin)
+plt.colorbar(label='Pixel value')
+plt.title('J1614-1906 (2014-06-07) Scaled Display')
+plt.show()
+
+'''
+4. Identifying the star
+'''
+# 4. Identify the star in the image 
+# https://docs.astropy.org/en/latest/wcs/index.html
+#https://docs.astropy.org/en/stable/api/astropy.wcs.utils.skycoord_to_pixel.html
+
+from astropy.wcs import WCS
+from astropy.wcs.utils import skycoord_to_pixel
+from astropy.coordinates import SkyCoord
+import matplotlib.pyplot as plt
+import numpy as np
+
+# build WCS from the header
+w = WCS(header_info)
+
+# coordinates of J1614-190617
+target = SkyCoord('16h14m20.3s', '-19d06m48.1s', frame='icrs')
+
+# convert sky position to pixel coords using skycoord
+x, y = skycoord_to_pixel(target, w, origin=0)
+print(f"J1614-190617 at pixel coordinates ({x:.1f}, {y:.1f})")
+
+# show image with marker
+plt.imshow(img_array, origin='lower', cmap='magma', vmin=vmin, vmax=vmax)
+plt.plot(x, y, 'o', mfc='none', ms=14, mew=2, label='J1614-190617') #plot open circle at target pixel
+plt.title("J1614-190617")
+plt.show()
+
+# Output:
+# WARNING: FITSFixedWarning: 'obsfix' made the change 'Set OBSGEO-L to   149.070877 from OBSGEO-[XYZ].
+# Set OBSGEO-B to   -31.272798 from OBSGEO-[XYZ].
+# Set OBSGEO-H to     1161.994 from OBSGEO-[XYZ]'. [astropy.wcs.wcs]
+# J1614-190617 at pixel coordinates (967.1, 1047.9)
+
+'''
+5. Selecting a star-less region
+'''
+# 5. From the whole image, select a region that has no stars to estimate this background signal.
+# https://stackoverflow.com/questions/50067977/plt-add-patch-causes-an-error-how-do-i-add-a-rectangle-over-a-set-of-points
+
+import numpy as np
+import matplotlib.pyplot as plt
+from astropy.stats import sigma_clipped_stats
+
+y0, y1 = 100, 250
+x0, x1 = 900, 1100
+
+# small region with no stars
+sky_box = img_array[y0:y1, x0:x1]
+
+sky_mean = float(np.mean(sky_box))
+sky_median = float(np.median(sky_box))
+sky_std = float(np.std(sky_box))
+print(f"Sky mean={sky_mean:.3f}, median={sky_median:.3f}, std={sky_std:.3f}")
+
+# draw sky box on graph to visualize
+
+#prcentage scaling
+vmin = np.percentile(img_array, 5)
+vmax = np.percentile(img_array, 99.5)
+
+plt.imshow(img_array, origin='lower', cmap='magma', vmin=vmin, vmax=vmax)
+plt.gca().add_patch(plt.Rectangle((x0, y0), x1-x0, y1-y0, fill=False, lw=2))
+plt.title("Sky box")
+plt.show()
+
+# Output:
+# Sky mean=57.834, median=57.783, std=16.493
+
+'''
+6. Defining new minimal region containing the target star
+'''
+# 6. Define a separate region containing the target star and as little else as possible. Compute the total number of counts in the region.
+#https://stackoverflow.com/questions/32271331/can-anybody-explain-me-the-numpy-indices
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+#radius of aperture
+r = 22
+
+yy, xx = np.indices(img_array.shape)               # creates two 2D arrays representing row & col for every pixel
+ap_mask = (xx - x)**2 + (yy - y)**2 <= r**2        # distance from star center; inside circle = true, outside circle = false
+
+n_pix = int(ap_mask.sum())                             #num of pixels in circle
+total_counts_region = float(img_array[ap_mask].sum())  #total light from pixels inside circle
+
+print(f"Aperture radius r = {r} px")
+print(f"Pixels in region   = {n_pix}")
+print(f"TOTAL counts in region (star + sky) = {total_counts_region:.1f}")
+
+# visualize region (used same patch thing as number 5 but for a circle)
+plt.imshow(img_array, origin='lower', cmap='magma', vmin=vmin, vmax=vmax)
+plt.gca().add_patch(plt.Circle((x, y), r, fill=False, color='teal', lw=2))  # draw circle patch at (x, y)
+plt.title("Chosen star region")
+plt.show()
+
+# Output:
+# Aperture radius r = 22 px
+# Pixels in region   = 1517
+# TOTAL counts in region (star + sky) = 193747.7
+
+'''
+7. Using GAIN to convert counts to electrons
+'''
+# 7. Using the GAIN header keyword, convert from counts to the number of electrons.
+
+gain = header_info['GAIN']  #reads gain value from header info
+
+e_from_counts = total_counts_region * gain
+
+print(f"GAIN = {gain:.3f} e⁻/ADU")
+print(f"Total electrons = {e_from_counts:.1f} e⁻")
+
+# Output:
+# GAIN = 1.400 e⁻/ADU
+# Total electrons = 271246.7 e⁻
+
+'''
+8. Computing per-pixel mean of sky background minus target region
+'''
+# 8. Compute the mean sky background per pixel from the background region, and them subtract this (in the appropriate way) from the target region.
+
+# background signal in circle region
+background_counts = sky_mean * n_pix
+
+# star signal after subtracting background
+star_counts = total_counts_region - background_counts
+
+# per-pixel values
+total_per_pix = total_counts_region / n_pix
+background_per_pix = sky_mean
+star_per_pix = star_counts / n_pix
+
+print(f"Total counts (star + sky): {total_counts_region:.1f} ADU")
+print(f"Background counts:         {background_counts:.1f} ADU")
+print(f"Net star counts:           {star_counts:.1f} ADU\n")
+
+print(f"Per-pixel totals:")
+print(f"  Total per pixel:      {total_per_pix:.2f} ADU/pix")
+print(f"  Background per pixel: {background_per_pix:.2f} ADU/pix")
+print(f"  Net star per pixel:   {star_per_pix:.2f} ADU/pix")
+
+# Output:
+# Total counts (star + sky): 193747.7 ADU
+# Background counts:         87733.5 ADU
+# Net star counts:           106014.2 ADU
+
+# Per-pixel totals:
+#   Total per pixel:      127.72 ADU/pix
+#   Background per pixel: 57.83 ADU/pix
+#   Net star per pixel:   69.88 ADU/pix
+
+'''
+9. Uncertainties
+'''
+# 9. Use these hints to propagate uncertainties appropriately.
+
+# star uncertainty: one measurement -> poisson (sqrt of photons)
+star_electrons = star_counts * gain
+star_uncertainty = np.sqrt(star_electrons)
+
+# background uncertainty: use empirical standard deviation of sky
+sky_std_electrons = np.std(sky_box) * gain  # per pixel
+background_uncertainty_per_pixel = sky_std_electrons
+background_uncertainty_in_aperture = np.sqrt(n_pix) * sky_std_electrons  # scaled to the aperture
+
+# print with two decimals
+print(f"Uncertainty in star photons:            {star_uncertainty:.2f} photons")
+print(f"Uncertainty in background (per pixel):  {background_uncertainty_per_pixel:.2f} photons")
+print(f"Uncertainty in background (aperture):   {background_uncertainty_in_aperture:.2f} photons")
+
+# Output:
+# Uncertainty in star photons:            385.25 photons
+# Uncertainty in background (per pixel):  23.09 photons
+# Uncertainty in background (aperture):   899.32 photons
+
+'''
+10. 10
+'''
+# 10 
+
+from astropy.wcs import WCS
+from astropy.wcs.utils import skycoord_to_pixel
+from astropy.coordinates import SkyCoord
+import matplotlib.pyplot as plt
+import numpy as np
+
+# build WCS from the header
+w = WCS(header_info)
+
+# coordinates of J1614-190617
+target = SkyCoord('16h14m20.912s', '-19d06m04.7s', frame='icrs')
+
+# convert sky position to pixel coords using skycoord
+xs, ys = skycoord_to_pixel(target, w, origin=0)
+print(f"J1614-190617 at pixel coordinates ({x:.1f}, {y:.1f})")
+
+#radius of aperture
+r = 22
+
+yys, xxs = np.indices(img_array.shape)               # creates two 2D arrays representing row & col for every pixel
+ap_mask_s = (xxs - xs)**2 + (yys - ys)**2 <= r**2        # distance from star center; inside circle = true, outside circle = false
+
+n_pix_s = int(ap_mask.sum())                             #num of pixels in circle
+total_counts_region_s = float(img_array[ap_mask_s].sum())  #total light from pixels inside circle
+
+print(f"Aperture radius r = {r} px")
+print(f"Pixels in region   = {n_pix}")
+print(f"TOTAL counts in region (star + sky) = {total_counts_region:.1f}")
+
+# visualize region (used same patch thing as number 5 but for a circle)
+plt.imshow(img_array, origin='lower', cmap='magma', vmin=vmin, vmax=vmax)
+plt.gca().add_patch(plt.Circle((x, y), r, fill=False, color='teal', lw=2))  # draw circle patch at (x, y)
+plt.title("Chosen star region")
+plt.show()
+
+gain = header_info['GAIN']  #reads gain value from header info
+
+e_from_counts = total_counts_region_s * gain
+
+# star signal after subtracting background
+star_counts_s = total_counts_region_s - background_counts
+
+# per-pixel values
+total_per_pix_s = total_counts_region_s / n_pix
+star_per_pix_s = star_counts_s / n_pix
+
+# star uncertainty: one measurement -> poisson (sqrt of photons)
+star_electrons_s = star_counts_s * gain
+star_uncertainty_s = np.sqrt(star_electrons_s)
+
+###
+
+m_standard = 13.50
+
+flux_ratio = star_counts / star_counts_s
+m_target = m_standard - 2.5 * np.log10(flux_ratio)
+
+error_m = (2.5 / np.log(10)) * np.sqrt(
+    (star_uncertainty / star_counts) ** 2 + (star_uncertainty_s / star_counts_s) ** 2
+)
+
+print(f"Estimated r-band magnitude of target star: {m_target: .3}")
+print(f"Estimated r-band magnitude of target star uncertainty: {error_m: .1}")
+
+# Output:
+# WARNING: FITSFixedWarning: 'obsfix' made the change 'Set OBSGEO-L to   149.070877 from OBSGEO-[XYZ].
+# Set OBSGEO-B to   -31.272798 from OBSGEO-[XYZ].
+# Set OBSGEO-H to     1161.994 from OBSGEO-[XYZ]'. [astropy.wcs.wcs]
+# J1614-190617 at pixel coordinates (948.1, 955.7)
+# Aperture radius r = 22 px
+# Pixels in region   = 1517
+# TOTAL counts in region (star + sky) = 193747.7
+
+'''
+11.
+'''
+# Hi Mitchell. Unfortunately, it’s 6:45am and I wasn’t able to get a working code going. 
+# I tried every possible option and couldn’t get it to work, so I give up. 
+# If possible, it would be great to meet at a later date to work through this together. Sorry. 
+
+# Silvia
+
+'''
+12.
+'''
+# See number 11
+
+'''
+13.
+'''
+# To tell if the star’s brightness is actually changing, you can use a statistical test instead of just looking at the plot. 
+# A simple way is a chi-squared test, which compares how much the measured magnitudes vary to how much variation you’d expect 
+# just from measurement errors. If the real scatter is much larger than what random noise can explain, the star is likely variable. 
+# This test is good for spotting slow or irregular changes in brightness but might miss very short-term variations that happen 
+# between the times the images were taken.
+
+# 14.7 Capstone Questions:
 '''
 7. Capstone Questions
 '''
