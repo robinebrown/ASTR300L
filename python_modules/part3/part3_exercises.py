@@ -1019,7 +1019,7 @@ plt.title("Histo of Bband Image Pixel Values")
 
 # save histogram as PDF
 plt.savefig("bband_hisogram.pdf")
-plt.show
+plt.show()
 
 # Output:
 # Mean: 368.32596
@@ -1562,12 +1562,12 @@ print(f"Estimated r-band magnitude of target star uncertainty: {error_m: .1}")
 '''INTERMEDIARY'''
 print("\nYou have reached the final section. Congratulations. Now, bask in the amalgamation of our knowledge.")
 
-plankton = input("Enter 'All hail Plankton' to continue: ")
+accept = input("Enter 'I accept' to continue: ")
 
-if plankton.lower() == "all hail plankton":
-    print("He is hailed.")
+if accept.lower() == "i accept":
+    print("Overwhelming knowledge accepted.")
 else:
-    print("Hailing anyways!")
+    print("Accepting anyways!")
 
 # 14.7 Capstone Questions:
 '''
