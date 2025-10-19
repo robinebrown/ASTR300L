@@ -758,7 +758,7 @@ print("\nThe following sections prints very long lists of whatever.\nPrepare you
 
 yes = input("Enter 'yes' to continue: ")
 
-if yes == "yes":
+if yes.lower() == "yes":
     print("Continuing.")
 else:
     print("Continuing anyways!")
@@ -1225,6 +1225,16 @@ print("  Mask 1-locations (row, col):", coords)   # print coords of pixels where
 #   BETA  : 1.155
 #   Mask 1-locations (row, col): [(197, 831), (537, 1295), (554, 453), (1001, 541), (1307, 246), (1598, 1305), (1900, 1142)]
 
+'''INTERMEDIARY'''
+print("\nThe following section (14.6) prints very long lists of whatever and opens plots.\nPrepare yourself.")
+
+yes = input("Enter 'yes' to continue: ")
+
+if yes.lower() == "yes":
+    print("He is hailed.")
+else:
+    print("Continuing anyways!")
+
 # 14.6 Science with Astronomical Images
 '''
 1. Loading the image
@@ -1533,16 +1543,12 @@ print(f"Estimated r-band magnitude of target star uncertainty: {error_m: .1}")
 '''
 11.
 '''
-# Hi Mitchell. Unfortunately, it’s 6:45am and I wasn’t able to get a working code going. 
-# I tried every possible option and couldn’t get it to work, so I give up. 
-# If possible, it would be great to meet at a later date to work through this together. Sorry. 
 
-# Silvia
 
 '''
 12.
 '''
-# See number 11
+
 
 '''
 13.
@@ -1552,6 +1558,16 @@ print(f"Estimated r-band magnitude of target star uncertainty: {error_m: .1}")
 # just from measurement errors. If the real scatter is much larger than what random noise can explain, the star is likely variable. 
 # This test is good for spotting slow or irregular changes in brightness but might miss very short-term variations that happen 
 # between the times the images were taken.
+
+'''INTERMEDIARY'''
+print("\nYou have reached the final section. Congratulations. Now, bask in the amalgamation of our knowledge.")
+
+plankton = input("Enter 'All hail Plankton' to continue: ")
+
+if plankton.lower() == "all hail plankton":
+    print("He is hailed.")
+else:
+    print("Hailing anyways!")
 
 # 14.7 Capstone Questions:
 '''
