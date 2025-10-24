@@ -151,42 +151,42 @@
 # plt.show()
 
 # # Output:
-# Problem 5b: Special-function model plot for Y = α·J₀(βX + γ) [cylindrical Bessel function]
+# # Problem 5b: Special-function model plot for Y = α·J₀(βX + γ) [cylindrical Bessel function]
 
-'''
-6. Combined plot: linear, cosine, quadratic, exponential
-'''
-# Make a single plot in which all four of the above expressions (non-special) are plotted. Adjust the 
-# parameters of each model so they all are displayed ’as informatively as possible’ on the same plot, given 
-# the same X values in all cases. Label each model in the legend, and make each line a different color 
-# (hint: the tableau colors are designed to differentiate data of this type - categorical).
+# '''
+# 6. Combined plot: linear, cosine, quadratic, exponential
+# '''
+# # Make a single plot in which all four of the above expressions (non-special) are plotted. Adjust the 
+# # parameters of each model so they all are displayed ’as informatively as possible’ on the same plot, given 
+# # the same X values in all cases. Label each model in the legend, and make each line a different color 
+# # (hint: the tableau colors are designed to differentiate data of this type - categorical).
 
-import numpy as np
-import matplotlib.pyplot as plt
+# import numpy as np
+# import matplotlib.pyplot as plt
 
-X = np.linspace(0.0, 3.0, 100)
+# X = np.linspace(0.0, 3.0, 100)
 
-linear  = 1.5 * X + 0.0
-cosine  = 1.0 * np.cos(4*np.pi * X)
-quadratic = 1.0 * X**2 - 1.0 * X
-exponential  = 1.0 * np.exp(X) + 0.0
+# linear  = 1.5 * X + 0.0
+# cosine  = 1.0 * np.cos(4*np.pi * X)
+# quadratic = 1.0 * X**2 - 1.0 * X
+# exponential  = 1.0 * np.exp(X) + 0.0
 
-print("\nProblem 6: Combined plot for linear, cosine, quadratic, exponential")
+# print("\nProblem 6: Combined plot for linear, cosine, quadratic, exponential")
 
-plt.plot(X, linear,  color='tab:blue',  label='Linear: Y = 1.5X + 0.0')
-plt.plot(X, cosine,  color='tab:orange',label='Cosine: Y = 1.0·cos(4πX)')
-plt.plot(X, quadratic, color='tab:green', label='Quadratic: Y = X² − X')
-plt.plot(X, exponential,  color='tab:red',   label='Exponential: Y = 1.0·e^X')
-plt.title("Combined plot of linear, cosine, quadratic, and exponential models")
-plt.xlabel('X')
-plt.ylabel('Y')
-plt.legend()
-plt.tight_layout()
-plt.savefig('xy_all_models.pdf', bbox_inches='tight')
-plt.show()
+# plt.plot(X, linear,  color='tab:blue',  label='Linear: Y = 1.5X + 0.0')
+# plt.plot(X, cosine,  color='tab:orange',label='Cosine: Y = 1.0·cos(4πX)')
+# plt.plot(X, quadratic, color='tab:green', label='Quadratic: Y = X² − X')
+# plt.plot(X, exponential,  color='tab:red',   label='Exponential: Y = 1.0·e^X')
+# plt.title("Combined plot of linear, cosine, quadratic, and exponential models")
+# plt.xlabel('X')
+# plt.ylabel('Y')
+# plt.legend()
+# plt.tight_layout()
+# plt.savefig('xy_all_models.pdf', bbox_inches='tight')
+# plt.show()
 
-# Output:
-# Problem 6: Combined plot for linear, cosine, quadratic, exponential
+# # Output:
+# # Problem 6: Combined plot for linear, cosine, quadratic, exponential
 
 # '''
 # 7. Noisy quadratic: Y = αX^2 + βX + γ with X sampled from N(X_true, σ)
@@ -251,72 +251,49 @@ plt.savefig('xy_quadratic_true_vs_noisy_min.pdf', bbox_inches='tight')
 plt.show()
 
 
-# Output:
-# Problem 7: Noisy quadratic Y from X sampled with given FWHM
+# # Output:
+# # Problem 7: Noisy quadratic Y from X sampled with given FWHM
 
-# '''
-# 8. 100 element array from 0 to 10 α = 2, β = 3, γ = 5
-# '''
-# # 8. Finally: Use your new function and a 100 element x array running from 0 to
-# # 10 to answer the following question: For α = 2, β = 3, γ = 5, approximately
-# # what value of the normal distribution width is needed for the plotted relation
-# # to no longer resemble (as judged qualitatively) a polynomial? Hint, you do not
-# # need to do more than generate a fair number of plots while experimentig with
-# # the value of the normal distribution width.
+'''
+8. 100 element array from 0 to 10 α = 2, β = 3, γ = 5
+'''
+# 8. Finally: Use your new function and a 100 element x array running from 0 to
+# 10 to answer the following question: For α = 2, β = 3, γ = 5, approximately
+# what value of the normal distribution width is needed for the plotted relation
+# to no longer resemble (as judged qualitatively) a polynomial? Hint, you do not
+# need to do more than generate a fair number of plots while experimentig with
+# the value of the normal distribution width.
 
-# import numpy as np
-# import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.pyplot as plt
 
-# def quadratic_model(X, alpha, beta, gamma):
-#     return alpha * X**2 + beta * X + gamma
+def quadratic_model(X, alpha, beta, gamma):
+    return alpha * X**2 + beta * X + gamma
 
-# def quadratic_noisy_matrix(X, alpha, beta, gamma, fwhm, rng, n=100):
-#     sigma = fwhm / 2.3548200450309493
-#     Xn = rng.normal(loc=X, scale=sigma, size=(n, X.size))
-#     return alpha * Xn**2 + beta * Xn + gamma  # shape: (n, len(X))
+def quadratic_noisy_matrix(X, alpha, beta, gamma, fwhm, rng, n=100):
+    sigma = fwhm / 2.3548200450309493
+    Xn = rng.normal(loc=X, scale=sigma, size=(n, X.size))
+    return alpha * Xn**2 + beta * Xn + gamma  # shape: (n, len(X))
 
-# rng = np.random.default_rng()
-# X = np.linspace(0.0, 10.0, 100)
-# a = 2.0
-# b = 3.0
-# gamma = 5.0
-# FWHM = [0.1, 0.3, 0.5, 0.8, 1.2, 1.8, 2.5, 3.5]
+rng = np.random.default_rng()
+X = np.linspace(0.0, 10.0, 100)
+a = 2.0
+b = 3.0
+gamma = 5.0
+FWHM = [0.1, 0.3, 0.5, 0.8, 1.2, 1.8, 2.5, 3.5]
 
-# print("\nProblem 8: Visual sweep over FWHM to judge departure from polynomial")
+print("\nProblem 8: Visual sweep over FWHM to judge departure from polynomial")
 
-# fig, axes = plt.subplots(2, 4, sharex=True, sharey=True)
+fig, axes = plt.subplots(2, 4, sharex=True, sharey=True)
 
-# for ax, f in zip(axes.ravel(), FWHM):
-#     Y_true = quadratic_model(X, a, b, g)
-#     Y_noisy = quadratic_noisy_matrix(X, a, b, g, f, rng, n = 100)
-#     ax.plot(X, Y_noisy.T, linewidth = 1.0, zorder = 1)
-#     ax.plot(X, Y_true, 'k', linewidth = 1.0, zorder = 2)
-
-# fig.tight_layout()
-# plt.plot()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# #     ax.plot(X, Y_noisy.T, lw=0.6, alpha=0.12, zorder=1)
-# #     ax.plot(X, Y_true, 'k', lw=2.0, zorder=2, label='True')
-# #     ax.set_title(f'FWHM = {f}')
-# # for ax in axes[-1]:
-# #     ax.set_xlabel('X')
-# # for ax in axes[:,0]:
-# #     ax.set_ylabel('Y')
-# # fig.tight_layout()
-# # fig.savefig('q8_fwhm_grid.pdf', bbox_inches='tight')
-# # plt.show()
+for ax, f in zip(axes.ravel(), FWHM):
+    ax.plot(X, Y_noisy.T, lw=0.6, alpha=0.12, zorder=1)
+    ax.plot(X, Y_true, 'k', lw=1.0, zorder=2, label='True')
+    ax.set_title(f'FWHM = {f}')
+for ax in axes[-1]:
+    ax.set_xlabel('X')
+for ax in axes[:,0]:
+    ax.set_ylabel('Y')
+fig.tight_layout()
+fig.savefig('q8_fwhm_grid.pdf', bbox_inches='tight')
+plt.show()
