@@ -248,6 +248,8 @@ face = datasets.face(gray=True)
 
 import matplotlib.pyplot as plt
 
+print("\n14.2: An Everyday Image\nProblem 1: Default display of face")
+
 plt.imshow(face)
 plt.show()
 
@@ -259,6 +261,9 @@ plt.show()
 
 import numpy as np
 import matplotlib.pyplot as plt
+
+print("\nProblem 2: Minimum/maximum display")
+
 
 #find min and max using numpy min/max function
 min_val = np.min(face)
@@ -284,8 +289,9 @@ plt.show()
 '''
 # 3. Print the numerical values of any 30 ×30 element section of the image to the screen.
 
+print("\nProblem 3: 30x30 element section:")
 section = face[0:30, 0:30]
-print(section)
+print(f"\n{section}")
 
 '''
 4. 100 pixel border removed
@@ -294,6 +300,7 @@ print(section)
 
 import matplotlib.pyplot as plt
 
+print("\nProblem 4: 100 pixel border removed")
 # remove 100-pixel border from all sides (top, bottom , l, r)
 cropped = face[100:-100, 100:-100]
 
@@ -317,6 +324,8 @@ plt.show()
 
 import numpy as np
 import matplotlib.pyplot as plt
+
+print("\nProblem 5: Flow control row sort")
 
 # create copy of image so we dont modify the original
 sorted_face = face.copy()
@@ -348,6 +357,8 @@ plt.show()
 
 import numpy as np
 import matplotlib.pyplot as plt
+
+print("\nProblem 6: Unsummarizable instructions")
 
 # make a copy of original iamge
 odd_sort_face = face.copy()
@@ -946,6 +957,7 @@ hdulist = fits.open("Data/Images/ImagesForAnalysis/Bband.fits")
 data = hdulist[0].data
 header = hdulist[0].header
 
+print("\nProblem 1: Loading BBand.fits")
 print("This file has", len(hdulist), "HDU.")
 print("Data shape:", data.shape)
 print("Data type:", data.dtype)
@@ -964,6 +976,7 @@ print("Data type:", data.dtype)
 
 from astropy.io import fits
 
+print("\nProblem 2: Print header information")
 hdulist = fits.open("Data/Images/ImagesForAnalysis/Bband.fits")
 hdulist.info()
 
@@ -987,6 +1000,7 @@ hdulist.info()
 
 import matplotlib.pyplot as plt
 
+print("\nProblem 3: Displaying BBand.fits")
 plt.imshow(data)
 plt.show()
 
@@ -1000,6 +1014,8 @@ plt.show()
 
 import numpy as np
 import matplotlib.pyplot as plt
+
+print("\nProblem 4: Statistics on the image array")
 
 # use numpy functions to calcualte image stats
 print("Mean:", np.mean(data))
@@ -1037,6 +1053,8 @@ plt.show()
 import numpy as np
 import matplotlib.pyplot as plt
 
+print("\nProblem 5: Estimating min/max values")
+
 vmin = np.percentile(data,5) #near background peak (dark noise)
 vmax = np.percentile(data, 99.5) #ignore the brightest outlieers
 
@@ -1063,6 +1081,8 @@ plt.show()
 import numpy as np
 import matplotlib.pyplot as plt
 
+print("\nProblem 6: Scaling/stretching")
+
 #shift so the minimum pixel becomes 0 (avoids negatives before non linear stretching)
 img0 = data - np.min(data)
 
@@ -1088,6 +1108,8 @@ from astropy.io import fits
 import numpy as np
 import matplotlib.pyplot as plt
 
+print("\nProblem 7: Load/display Halpha")
+
 #load both images
 bband = fits.getdata("Data/Images/ImagesForAnalysis/Bband.fits")
 halpha = fits.getdata("Data/Images/ImagesForAnalysis/Halpha.fits")
@@ -1103,6 +1125,7 @@ plt.show()
 
 ###
 
+print("\nProblem 7: Part 2")
 #create ratio image (add 1e-6 to prevent division by 0)
 ratio = bband / (halpha + 1e-6)
 
@@ -1127,6 +1150,8 @@ plt.show()
 
 import numpy as np
 from astropy.io import fits
+
+print("\nProblem 8: The final FITS")
 
 #load images as numpy arrays
 b_band = fits.getdata("Data/Images/ImagesForAnalysis/Bband.fits")
@@ -1248,7 +1273,7 @@ img_data = fits.open("Data/StellarPhotometry/coj1m011-kb05-20140607-0113-e90.fit
 
 #print header info
 header_info = img_data[0].header
-print(header_info)
+print(f"\n14.6: Science with Astronomical Images\nProblem 1: Loading the image\n{header_info}")
 
 # This FITS image is an LCOGT 1-m exposure of J1614-1906. It was observed on 2014-06-07 from 14:51:40.337 to 14:52:01.773 UTC.
 
@@ -1273,6 +1298,8 @@ img_array = img_data[0].data
 import matplotlib.pyplot as plt
 import  numpy as np
 
+print("\nProblem 3: Displaying and scaling the image")
+
 img_array = img_data[0].data
 
 # percentile scaling
@@ -1296,6 +1323,8 @@ from astropy.wcs.utils import skycoord_to_pixel
 from astropy.coordinates import SkyCoord
 import matplotlib.pyplot as plt
 import numpy as np
+
+print("\nProblem 4: Identifying the star")
 
 # build WCS from the header
 w = WCS(header_info)
@@ -1328,6 +1357,8 @@ plt.show()
 import numpy as np
 import matplotlib.pyplot as plt
 from astropy.stats import sigma_clipped_stats
+
+print("\nProblem 5: Selecting a star-less region")
 
 y0, y1 = 100, 250
 x0, x1 = 900, 1100
@@ -1363,6 +1394,8 @@ plt.show()
 import numpy as np
 import matplotlib.pyplot as plt
 
+print("\nProblem 6: Defining new minimal region containing the target star")
+
 #radius of aperture
 r = 22
 
@@ -1392,6 +1425,8 @@ plt.show()
 '''
 # 7. Using the GAIN header keyword, convert from counts to the number of electrons.
 
+print("\nProblem 7: Using GAIN to convert counts to electrons")
+
 gain = header_info['GAIN']  #reads gain value from header info
 
 e_from_counts = total_counts_region * gain
@@ -1406,6 +1441,8 @@ print(f"Total electrons = {e_from_counts:.1f} e⁻")
 '''
 8. Computing per-pixel mean of sky background minus target region
 '''
+
+print("\nProblem 8: Computing per-pixel mean of sky background minus target region")
 # 8. Compute the mean sky background per pixel from the background region, and them subtract this (in the appropriate way) from the target region.
 
 # background signal in circle region
@@ -1441,6 +1478,8 @@ print(f"  Net star per pixel:   {star_per_pix:.2f} ADU/pix")
 '''
 9. Uncertainties
 '''
+
+print("\nProblem 9: Uncertainties")
 # 9. Use these hints to propagate uncertainties appropriately.
 
 # star uncertainty: one measurement -> poisson (sqrt of photons)
@@ -1472,6 +1511,8 @@ from astropy.wcs.utils import skycoord_to_pixel
 from astropy.coordinates import SkyCoord
 import matplotlib.pyplot as plt
 import numpy as np
+
+print("\nProblem 10:")
 
 # build WCS from the header
 w = WCS(header_info)
@@ -1553,11 +1594,14 @@ print(f"Estimated r-band magnitude of target star uncertainty: {error_m: .1}")
 '''
 13.
 '''
-# To tell if the star’s brightness is actually changing, you can use a statistical test instead of just looking at the plot. 
-# A simple way is a chi-squared test, which compares how much the measured magnitudes vary to how much variation you’d expect 
-# just from measurement errors. If the real scatter is much larger than what random noise can explain, the star is likely variable. 
-# This test is good for spotting slow or irregular changes in brightness but might miss very short-term variations that happen 
-# between the times the images were taken.
+
+print("Problem 13:")
+print("\nTo tell if the star’s brightness is actually changing, you can use a statistical test instead of just looking at the plot. \
+A simple way is a chi-squared test, which compares how much the measured magnitudes vary to how much variation you’d expect \
+just from measurement errors. If the real scatter is much larger than what random noise can explain, the star is likely variable. \
+This test is good for spotting slow or irregular changes in brightness but might miss very short-term variations that happen \
+between the times the images were taken."
+    )
 
 '''INTERMEDIARY'''
 print("\nYou have reached the final section. Congratulations. Now, bask in the amalgamation of our knowledge.")
