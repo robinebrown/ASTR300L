@@ -1,0 +1,9 @@
+Details for Cluster: NGC 6791
+Distance Modulus: 13.4
+Interstellar Reddening: 0.06
+[Fe/H]: +0.40 (alpha enhanced)
+
+File List:
+NGC6791_README : This file
+NGC6791_raw.csv : Pan-STARRS object data for 30arcmin radius around NGC 6791
+NGC6791_XXGY.txt : Dartmouth isochrone data for XX billion year old distribution

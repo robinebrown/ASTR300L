@@ -1,0 +1,9 @@
+Details for Cluster: M67
+Distance Modulus: 10.3
+Interstellar Reddening: 0.06
+[Fe/H]: +0.01 (alpha enhanced)
+
+File List:
+M67_README : This file
+M67_raw.csv : Pan-STARRS object data for 30arcmin radius around M67
+M67_XGY.txt : Dartmouth isochrone data for X billion year old distribution
